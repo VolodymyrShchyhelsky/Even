@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "tablewidget.h"
 
 namespace Ui {
 class MainWindow;

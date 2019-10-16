@@ -3,23 +3,20 @@
 
 #include <QGraphicsScene>
 #include <QtMath>
+#include <QDebug>
 
 class Table : public QGraphicsScene
 {
     Q_OBJECT
 public:
     explicit Table(QObject *parent = nullptr);
-    void setNumOfGuests(int num_of_guests);
-    void draw();
+    virtual void draw() = 0;
+    void move(int dx, int dy);
 
-private:
-    const int chair_radius = 30;
-    const int freeSpace = 3;
-    const int default_table_radius = 50;
-    int table_radius = default_table_radius;
-    int guests = 1;
-
-    void recalculateTableRadius();
+protected:
+    const int chair_radius = 20;
+    int x = 0;
+    int y = 0;
 
 signals:
 

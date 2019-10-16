@@ -27,11 +27,25 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        table.cpp
+        table.cpp \
+    roundtable.cpp \
+    rectangulartable.cpp \
+    tablewidget.cpp \
+    tablecreationwidget.cpp \
+    roundtablecreationwidget.cpp \
+    rectangulartablecreationwidget.cpp \
+    tableview.cpp
 
 HEADERS += \
         mainwindow.h \
-        table.h
+        table.h \
+    roundtable.h \
+    rectangulartable.h \
+    tablewidget.h \
+    tablecreationwidget.h \
+    roundtablecreationwidget.h \
+    rectangulartablecreationwidget.h \
+    tableview.h
 
 FORMS += \
         mainwindow.ui
