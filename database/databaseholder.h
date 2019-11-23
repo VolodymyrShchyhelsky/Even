@@ -23,8 +23,7 @@ private:
 
     void createTables();
     void connectToDB();
-
-    const QString PATH = "C://Qt//WorkSpace//Even//dataBase.db";
+    const QString PATH = "Users//katerepekh//Qt//Programs//EvenGroupProject//Even//database.db";
     QSqlDatabase db;
 
     typedef void(DataBaseHolder::*fp)();

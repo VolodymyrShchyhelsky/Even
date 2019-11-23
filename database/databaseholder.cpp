@@ -17,16 +17,6 @@ DataBaseHolder* DataBaseHolder::getDbHolder() {
 QSqlDatabase DataBaseHolder::getDB() {
     return db;
 }
-
-
-void DataBaseHolder::add(int id, int age) {
-    qDebug() << "AAAA";
-    QSqlQuery* query = new QSqlQuery(ADD_Q, db);
-    query->bindValue(0, id);
-    query->bindValue(1, age);
-    query->exec();
-}
-
 void DataBaseHolder::connectToDB() {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(PATH);

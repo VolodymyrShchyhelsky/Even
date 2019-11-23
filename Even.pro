@@ -29,14 +29,16 @@ SOURCES += \
         guest/*.cpp \
         table/*.cpp \
         schedule/*.cpp \
-        database/*.cpp
+        database/*.cpp \
+    schedule/scheduledelegate.cpp
 
 HEADERS += \
         *.h \
         guest/*.h \
         table/*.h \
         schedule/*.h \
-        database/*.h
+        database/*.h \
+    schedule/scheduledelegate.h
 
 FORMS += \
         mainwindow.ui
