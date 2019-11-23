@@ -25,6 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        databaseholder.cpp \
+        guestlist.cpp \
+        guestpage.cpp \
+        horizontalproxy.cpp \
         main.cpp \
         mainwindow.cpp \
         table/*.cpp \
@@ -32,6 +36,10 @@ SOURCES += \
         database/*.cpp
 
 HEADERS += \
+        databaseholder.h \
+        guestlist.h \
+        guestpage.h \
+        horizontalproxy.h \
         mainwindow.h \
         table/*.h \
         schedule/*.h \
