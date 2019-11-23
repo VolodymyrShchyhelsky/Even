@@ -1,7 +1,7 @@
 #ifndef RECTANGULARTABLE_H
 #define RECTANGULARTABLE_H
 
-#include <table.h>
+#include "table.h"
 
 class RectangularTable : public Table
 {

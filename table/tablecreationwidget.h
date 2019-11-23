@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QFormLayout>
-#include <table.h>
+#include "table.h"
 
 class TableCreationWidget : public QWidget
 {

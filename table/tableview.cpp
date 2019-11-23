@@ -25,7 +25,7 @@ void TableView::keyPressEvent(QKeyEvent *event) {
             break;
         case Qt::Key_Up:
             dy = -move_step;
-            break;
+            break;  
         case Qt::Key_Down:
             dy = move_step;
             break;

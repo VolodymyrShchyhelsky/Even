@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,25 +27,15 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        table.cpp \
-    roundtable.cpp \
-    rectangulartable.cpp \
-    tablewidget.cpp \
-    tablecreationwidget.cpp \
-    roundtablecreationwidget.cpp \
-    rectangulartablecreationwidget.cpp \
-    tableview.cpp
+        table/*.cpp \
+        schedule/*.cpp \
+        database/*.cpp
 
 HEADERS += \
         mainwindow.h \
-        table.h \
-    roundtable.h \
-    rectangulartable.h \
-    tablewidget.h \
-    tablecreationwidget.h \
-    roundtablecreationwidget.h \
-    rectangulartablecreationwidget.h \
-    tableview.h
+        table/*.h \
+        schedule/*.h \
+        database/*.h
 
 FORMS += \
         mainwindow.ui
