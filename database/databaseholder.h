@@ -8,20 +8,30 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QList>
+#include <QPair>
 
 class DataBaseHolder
 {
 public:
-    DataBaseHolder();
-    QSqlDatabase getDB() const;
+    QSqlDatabase getDB();
+    static DataBaseHolder* getDbHolder();
 
 private:
+    static DataBaseHolder* instance;
+    DataBaseHolder();
+
     void createTables();
     void connectToDB();
 
-    const QString PATH = "Users//katerepekh//Qt////WorkSpace//Even//dataBase.db";
+    const QString PATH = "C://Qt//WorkSpace//Even//dataBase.db";
     QSqlDatabase db;
 
+    typedef void(DataBaseHolder::*fp)();
+    QList< QPair<QString, fp> > tables;
+    void initTables();
+    void createGuestTable();
+    void createScheduleTable();
     void add(int id, int name);
 };
 

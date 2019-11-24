@@ -16,9 +16,9 @@ void UserListWidget::initListView() {
 }
 
 void UserListWidget::initListModel() {
-    db = new DataBaseHolder();
+    db = DataBaseHolder::getDbHolder();
     user_list_model = new QSqlTableModel(nullptr, db->getDB());
-    user_list_model->setTable("person");
+    user_list_model->setTable("guest");
     user_list_model->select();
 }
 

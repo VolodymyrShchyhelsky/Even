@@ -10,9 +10,7 @@
 #include <QTableWidget>
 #include <QLineEdit>
 #include <QDataWidgetMapper>
-#include "databaseholder.h"
-
-#include "horizontalproxy.h"
+#include "database/databaseholder.h"
 
 class GuestPage : public QWidget
 {
@@ -25,7 +23,6 @@ signals:
 public slots:
 
 private:
-    Horizontal_proxy_model* proxy_model;
     QTableView* user_list_view;
     QSqlTableModel* user_list_model;
     DataBaseHolder* db;
