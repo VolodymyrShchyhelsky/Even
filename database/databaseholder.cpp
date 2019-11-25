@@ -104,12 +104,12 @@ void DataBaseHolder::createScheduleTable() {
 
 void DataBaseHolder::createTableTable() {
     QSqlQuery create_table = QSqlQuery(
-            "create table table"
-            "(id integer primary key AUTOINCREMENT, "
-            "x integer, "
-            "y integer, "
-            "is_round integer, "
-            "capacity integer)", db);
+            "create table " + TABLES_TABLE +
+            "(id integer primary key AUTOINCREMENT, " +
+            TABLES_X_COLUMN + " integer DEFAULT 0, " +
+            TABLES_Y_COLUMN + " integer DEFAULT 0, " +
+            TABLES_BASE_CAPACITY_COLUMN + " integer, " +
+            TABLES_SECONDARY_CAPACITY_COLUMN + " integer DEFAULT 0)", db);
     create_table.exec();
 }
 
@@ -132,11 +132,73 @@ void DataBaseHolder::createTableToGuestTable() {
 void DataBaseHolder::createTagToGuestTable() {
     QSqlQuery create_table = QSqlQuery(
             "create table tagtoguest"
-            "(tag_id integer , "
+            "(tag_id integer, "
             "guest_id integer)", db);
     create_table.exec();
 }
 
+QString DataBaseHolder::getNameByGuestId(QString guest_id) {
+    QSqlQuery get_name = QSqlQuery(
+                "select surname "
+                "from guest "
+                "where id=" + guest_id,
+                db);
+    get_name.next();
+    return get_name.value(0).toString();
+}
+
+QString DataBaseHolder::insertNewTable(QString base_capacity, QString secondary_capacity) {
+    QSqlQuery insert_new_table = QSqlQuery(
+            "insert into " + TABLES_TABLE +
+            "(" + TABLES_BASE_CAPACITY_COLUMN + ", " +
+            TABLES_SECONDARY_CAPACITY_COLUMN + ")"
+            "values ('?', '?')",
+            db);
+    insert_new_table.bindValue(0, base_capacity);
+    insert_new_table.bindValue(1, secondary_capacity);
+    return insert_new_table.lastInsertId().toString();
+}
+
+void DataBaseHolder::deleteTable(QString table_id) {
+    QSqlQuery delete_table = QSqlQuery(
+                "delete from " + TABLES_TABLE +
+                " where id=" + table_id,
+                db);
+    delete_table.exec();
+    deleteTableGuestEntriesByTableId(table_id);
+}
+
+void DataBaseHolder::deleteTableGuestEntriesByTableId(QString table_id) {
+    QSqlQuery delete_tableguest_entries = QSqlQuery(
+                "delete from " + TABLEGUEST_TABLE +
+                " where table_id=" + table_id,
+                db);
+    delete_tableguest_entries.exec();
+}
+
+void DataBaseHolder::addTableGuestEntry(QString table_id, QString guest_id) {
+    QSqlQuery insert_new_entry = QSqlQuery(
+            "insert into " + TABLEGUEST_TABLE +
+            "(table_id, guest_id) "
+            "values ('?', '?')",
+            db);
+    insert_new_entry.bindValue(0, table_id);
+    insert_new_entry.bindValue(1, guest_id);
+    insert_new_entry.exec();
+}
+
+void DataBaseHolder::changeTableCoordinates(QString table_id, QString x, QString y) {
+    QSqlQuery change_coordinates = QSqlQuery(
+                "update " + TABLES_TABLE +
+                " set " +
+                TABLES_X_COLUMN + "=?, " +
+                TABLES_Y_COLUMN + "=? " +
+                "where id=?",
+                db);
+    change_coordinates.bindValue(0, x);
+    change_coordinates.bindValue(1, y);
+    change_coordinates.bindValue(2, table_id);
+}
 
 
 

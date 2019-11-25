@@ -8,10 +8,10 @@
 #include <QStackedWidget>
 #include <QGraphicsView>
 #include <QGroupBox>
-#include <QMessageBox>
 #include "roundtablecreationwidget.h"
 #include "rectangulartablecreationwidget.h"
 #include "tableview.h"
+#include "seatinghandler.h"
 
 class TableWidget : public QWidget
 {
@@ -29,12 +29,12 @@ private:
     RectangularTableCreationWidget * rectangular_table_creation_widget;
     QStackedWidget * table_creation_widgets;
     QGroupBox * table_box;
-    QVector<TableView*> table_views;
-    TableView * current_table_view;
-
-    void askToChooseTable();
+    //QVector<TableView*> table_views;
+    SeatingHandler * seating_handler;
 
 signals:
+    void addTable(Table * table);
+    void deleteCurrentTable();
 
 public slots:
     void rectangularTableChosen();
@@ -42,7 +42,6 @@ public slots:
     void addTable();
     void deleteTable();
     void saveLayout();
-    void setCurrentTable(TableView * current_table_view);
 };
 
 #endif // TABLEWIDGET_H

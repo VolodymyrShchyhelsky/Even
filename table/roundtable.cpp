@@ -30,8 +30,15 @@ void RoundTable::draw(bool active) {
     int base_y = y + table_radius - chair_radius;
     int chair_diameter = 2 * chair_radius;
     for(int i = 0; i < guests; ++i) {
-        addEllipse(QRectF(base_x + radius_sum * qSin(rotation_angle * i),
-                          base_y + radius_sum * qCos(rotation_angle * i),
-                          chair_diameter, chair_diameter));
+        QGraphicsEllipseItem * chair = addEllipse(QRectF(base_x + radius_sum * qSin(rotation_angle * i),
+                                                         base_y + radius_sum * qCos(rotation_angle * i),
+                                                         chair_diameter, chair_diameter));
+        if (i < guest_names.length()) {
+            QGraphicsTextItem * guest_name = new QGraphicsTextItem(guest_names.at(i), chair);
+        }
     }
+}
+
+QPair<int, int> RoundTable::get_capacity() {
+    return qMakePair(guests, 0);
 }

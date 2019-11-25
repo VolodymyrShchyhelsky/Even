@@ -20,6 +20,7 @@ QGridLayout* GuestFilter::createTableWLayout() {
     layout->addWidget(guest_list, 2, 0, 6, 3);
     layout->addWidget(tags_widget,2,3,6,2);
     return layout;
+
 }
 
 void GuestFilter::initSearchLine() {

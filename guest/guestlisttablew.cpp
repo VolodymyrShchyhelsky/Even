@@ -6,9 +6,10 @@ GuestListTableW::GuestListTableW(QWidget *parent) : GuestListBase(parent)
     GuestListBase::init();
     guest_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(guest_view, SIGNAL(clicked(const QModelIndex &)),
-            this, SLOT(getLastId(const QModelIndex &)));
+            this, SLOT(emitGuestId(const QModelIndex &)));
 }
 
-void GuestListTableW::getLastId(const QModelIndex & index) {
-    last_id = getId(index);
+void GuestListTableW::emitGuestId(const QModelIndex & index) {
+    QString guest_id = getId(index);
+    emit seatGuest(guest_id);
 }

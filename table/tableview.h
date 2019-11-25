@@ -11,6 +11,7 @@ class TableView : public QWidget
     Q_OBJECT
 public:
     explicit TableView(Table *table, QWidget *parent=nullptr);
+    Table* get_table();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -24,6 +25,7 @@ private:
 
 signals:
     void tableChosen(TableView * this_table);
+    void tableUnchosen(TableView * this_table);
 
 public slots:
 };

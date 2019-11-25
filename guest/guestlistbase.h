@@ -15,7 +15,7 @@ public:
     QSqlTableModel* guest_model;
     QStringList visible_columns;
     void applyFilters(QString filter = "");
-    virtual ~GuestListBase() {};
+    virtual ~GuestListBase() {}
 signals:
 
 public slots:

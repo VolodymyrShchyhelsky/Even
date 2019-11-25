@@ -7,15 +7,14 @@ class GuestListTableW : public GuestListBase
 {
     Q_OBJECT
 public:
-    virtual ~GuestListTableW() {};
+    virtual ~GuestListTableW() {}
     explicit GuestListTableW(QWidget *parent = nullptr);
 
-    QString last_id;
-
 signals:
+    void seatGuest(QString guest_id);
 
 public slots:
-    void getLastId(const QModelIndex &index);
+    void emitGuestId(const QModelIndex &index);
 
 private:
     const QString basic_filter = "id in (select guest_id from tabletoguest)";

@@ -45,8 +45,9 @@ void TableView::focusInEvent(QFocusEvent *event) {
 }
 
 void TableView::focusOutEvent(QFocusEvent *event) {
-    table->clear();
-    table->draw();
-    emit tableChosen(nullptr);
+    emit tableUnchosen(this);
 }
 
+Table* TableView::get_table() {
+    return table;
+}

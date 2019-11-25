@@ -29,3 +29,7 @@ void RectangularTable::draw(bool active) {
         addEllipse(QRectF(x + i * chair_diameter, base_y_bottom, chair_diameter, chair_diameter));
     }
 }
+
+QPair<int, int> RectangularTable::get_capacity() {
+    return qMakePair(width, height);
+}

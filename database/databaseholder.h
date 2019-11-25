@@ -20,7 +20,14 @@ public:
     QSqlDatabase getDB();
     static DataBaseHolder* getDbHolder();
 
-    void getSchedule();
+    QString insertNewTable(QString base_capacity, QString secondary_capacity);
+    void changeTableCoordinates(QString table_id, QString x, QString y);
+    void deleteTable(QString table_id);
+    void deleteTableGuestEntriesByTableId(QString table_id);
+
+    QString getNameByGuestId(QString guest_id);
+
+    void addTableGuestEntry(QString table_id, QString guest_id);
 
 private:
     static DataBaseHolder* instance;

@@ -8,6 +8,7 @@ class RectangularTable : public Table
 public:
     explicit RectangularTable(int width, int height, QObject *parent = nullptr);
     void draw(bool active) override;
+    QPair<int, int> get_capacity() override;
 
 private:
     int width;
