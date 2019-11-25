@@ -7,7 +7,7 @@ class RectangularTable : public Table
 {
 public:
     explicit RectangularTable(int width, int height, QObject *parent = nullptr);
-    void draw();
+    void draw(bool active) override;
 
 private:
     int width;

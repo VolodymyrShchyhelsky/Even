@@ -2,15 +2,18 @@
 
 TableView::TableView(Table *table, QWidget *parent) : QWidget(parent), table(table)
 {
+    setFocus();
+    setFocusPolicy(Qt::ClickFocus);
+    setMouseTracking(false);
+    setAttribute(Qt::WA_Hover, false);
     view = new QGraphicsView(this);
     view->setScene(table);
-    view->setFrameStyle(0);
+    view->setFrameStyle(QFrame::NoFrame);
     view->setStyleSheet("background-color: transparent;");
     table->draw();
-    view->setMinimumSize(table->width(), table->height());
+    view->setFixedSize(table->width() + 2, table->height() + 2);
     view->setFocusPolicy(Qt::NoFocus);
     view->show();
-    setFocusPolicy(Qt::ClickFocus);
 }
 
 void TableView::keyPressEvent(QKeyEvent *event) {
@@ -34,3 +37,16 @@ void TableView::keyPressEvent(QKeyEvent *event) {
     }
     move(x() + dx, y() + dy);
 }
+
+void TableView::focusInEvent(QFocusEvent *event) {
+    table->clear();
+    table->draw(true);
+    emit tableChosen(this);
+}
+
+void TableView::focusOutEvent(QFocusEvent *event) {
+    table->clear();
+    table->draw();
+    emit tableChosen(nullptr);
+}
+

@@ -10,6 +10,7 @@
 #include <QSqlRecord>
 #include <QList>
 #include <QPair>
+#include "databaseconstants.h"
 
 class DataBaseHolder
 {
@@ -17,13 +18,15 @@ public:
     QSqlDatabase getDB();
     static DataBaseHolder* getDbHolder();
 
+    void getSchedule();
+
 private:
     static DataBaseHolder* instance;
     DataBaseHolder();
 
     void createTables();
     void connectToDB();
-    const QString PATH = "Users//katerepekh//Qt//Programs//EvenGroupProject//Even//database.db";
+    const QString PATH = "/Users/katerepekh/Qt/Programs/EvenGroupProject/Even/dataBase.db";
     QSqlDatabase db;
 
     typedef void(DataBaseHolder::*fp)();

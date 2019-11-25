@@ -8,7 +8,7 @@ DataBaseHolder::DataBaseHolder()
 }
 
 DataBaseHolder* DataBaseHolder::getDbHolder() {
-    if(instance == nullptr) {
+    if (instance == nullptr) {
         instance = new DataBaseHolder();
     }
     return instance;
@@ -18,6 +18,8 @@ QSqlDatabase DataBaseHolder::getDB() {
     return db;
 }
 void DataBaseHolder::connectToDB() {
+    QFile file( PATH );
+    qDebug() << "File exists:" << file.exists();
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(PATH);
     if(!db.open()) {
@@ -33,7 +35,7 @@ void DataBaseHolder::createTables()
     initTables();
     QStringList db_tables = db.tables();
     qDebug() << "query " <<db_tables;
-    for(int i = 0; i < tables.size(); ++i) {
+    for (int i = 0; i < tables.size(); ++i) {
         auto table = tables[i];
         if(!db_tables.contains(table.first)) {
             //TODO test it
@@ -41,7 +43,7 @@ void DataBaseHolder::createTables()
         }
     }
     QStringList db_tables1 = db.tables();
-    qDebug() << "query1 " <<db_tables1;
+    qDebug() << "query1 " << db_tables1;
 }
 
 void DataBaseHolder::initTables()
@@ -52,6 +54,8 @@ void DataBaseHolder::initTables()
     tables.append(qMakePair<QString, fp>("tag",&DataBaseHolder::createTagTable));
     tables.append(qMakePair<QString, fp>("tabletoguest",&DataBaseHolder::createTableToGuestTable));
     tables.append(qMakePair<QString, fp>("tagtoguest",&DataBaseHolder::createTagToGuestTable));
+    tables.append(qMakePair<QString, fp>(GUEST_TABLE, &DataBaseHolder::createGuestTable));
+    tables.append(qMakePair<QString, fp>(SCHEDULE_TABLE, &DataBaseHolder::createScheduleTable));
 }
 
 void DataBaseHolder::createGuestTable() {
@@ -73,11 +77,11 @@ void DataBaseHolder::createGuestTable() {
 void DataBaseHolder::createScheduleTable() {
     qDebug() << "cre here";
     QSqlQuery create_table = QSqlQuery(
-            "create table schedule"
-            "(id integer primary key, "
-            "start varchar(20), "
-            "end varchar(20), "
-            "description varchar(20))", db);
+            "create table " + SCHEDULE_TABLE +
+            "(id integer primary key autoincrement, " +
+            SCHEDULE_FROM_COLUMN + " varchar(20), " +
+            SCHEDULE_TO_COLUMN + " varchar(20), " +
+            SCHEDULE_DESCRIPTION_COLUMN + " varchar(20))", db);
     create_table.exec();
 }
 

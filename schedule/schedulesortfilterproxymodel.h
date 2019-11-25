@@ -3,6 +3,7 @@
 
 #include "scheduletools.h"
 #include <QSortFilterProxyModel>
+#include <QSqlRecord>
 
 class ScheduleSortFilterProxyModel : public QSortFilterProxyModel
 {
@@ -13,8 +14,9 @@ public:
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 
-private:
+public slots:
     void sortByDateTime();
+    void createRecord();
 };
 
 #endif // SCHEDULESORTFILTERPROXYMODEL_H

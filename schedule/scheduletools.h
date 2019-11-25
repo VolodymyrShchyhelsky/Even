@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QSqlTableModel>
 #include "database/databaseconstants.h"
+#include "database/databaseholder.h"
 
 class ScheduleTools
 {
@@ -14,6 +15,7 @@ public:
 
 private:
     ScheduleTools();
+    static QSqlDatabase getDatabase();
 };
 
 #endif // SCHEDULETOOLS_H

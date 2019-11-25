@@ -1,7 +1,6 @@
 #include "schedulesortfilterproxymodel.h"
 
 ScheduleSortFilterProxyModel::ScheduleSortFilterProxyModel(QObject *parent) : QSortFilterProxyModel(parent) {
-    sort(0);
     connect(this, &ScheduleSortFilterProxyModel::dataChanged,
             this, &ScheduleSortFilterProxyModel::sortByDateTime);
 }
@@ -18,4 +17,16 @@ bool ScheduleSortFilterProxyModel::lessThan(const QModelIndex &left, const QMode
 
 void ScheduleSortFilterProxyModel::sortByDateTime() {
     sort(0);
+}
+
+void ScheduleSortFilterProxyModel::createRecord() {
+    QSqlTableModel * model = static_cast<QSqlTableModel*>(sourceModel());
+    QSqlRecord record = model->record();
+    record.setValue(SCHEDULE_DESCRIPTION_COLUMN, "");
+    record.setValue(SCHEDULE_FROM_COLUMN, QDateTime::currentDateTime().toString(DATETIME_FORMAT));
+    record.setValue(SCHEDULE_TO_COLUMN, QDateTime::currentDateTime().toString(DATETIME_FORMAT));
+    qDebug() << model->insertRecord(-1, record);
+    model->submitAll();
+    model->select();
+
 }

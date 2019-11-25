@@ -16,8 +16,14 @@ void RoundTable::recalculateTableRadius() {
     }
 }
 
-void RoundTable::draw() {
-    addEllipse(QRectF(x, y, 2 * table_radius, 2 * table_radius));
+void RoundTable::draw(bool active) {
+    QRectF table_rect = QRectF(x, y, 2 * table_radius, 2 * table_radius);
+    if (active) {
+        addEllipse(table_rect, QPen(), active_brush);
+    }
+    else {
+        addEllipse(table_rect);
+    }
     double rotation_angle = 2.0 * M_PI / guests;
     int radius_sum = table_radius + chair_radius;
     int base_x = x + table_radius - chair_radius;

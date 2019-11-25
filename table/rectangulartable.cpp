@@ -4,10 +4,17 @@ RectangularTable::RectangularTable(int width, int height, QObject *parent) : Tab
 {  
 }
 
-void RectangularTable::draw() {
+void RectangularTable::draw(bool active) {
     int chair_diameter = 2 * chair_radius;
     int width_in_pixels = width * chair_diameter;
     int height_in_pixels = height * chair_diameter;
+    QRectF table_rect = QRectF(x, y, width_in_pixels, height_in_pixels);
+    if (active) {
+        addRect(table_rect, QPen(), active_brush);
+    }
+    else {
+        addRect(table_rect);
+    }
     addRect(QRectF(x, y, width_in_pixels, height_in_pixels));
     int base_x_left = x - chair_diameter;
     int base_x_right = x + width_in_pixels;

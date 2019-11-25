@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include "table.h"
 #include <QKeyEvent>
+#include <QFocusEvent>
 
 class TableView : public QWidget
 {
@@ -12,7 +13,9 @@ public:
     explicit TableView(Table *table, QWidget *parent=nullptr);
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 
 private:
     QGraphicsView *view;
@@ -20,6 +23,7 @@ private:
     const int move_step = 10;
 
 signals:
+    void tableChosen(TableView * this_table);
 
 public slots:
 };

@@ -1,9 +1,15 @@
 #ifndef SCHEDULEWIDGET_H
 #define SCHEDULEWIDGET_H
 
-#include <database/databaseholder.h>
 #include <QTableView>
-#include <QSqlTableModel>
+#include <QPushButton>
+#include <QGroupBox>
+#include <QVBoxLayout>
+#include <QHeaderView>
+#include <QScrollBar>
+#include "database/databaseholder.h"
+#include "scheduledelegate.h"
+#include "schedulesortfilterproxymodel.h"
 
 class ScheduleWidget : public QWidget
 {
@@ -14,15 +20,20 @@ public:
 signals:
 
 public slots:
+    void adjustView();
 
 private:
-    const QString TABLE_NAME = "schedule";
-    QTableView* view;
-    QSqlTableModel* model;
-    DataBaseHolder* db;
+    DataBaseHolder * db;
+    ScheduleSortFilterProxyModel * model;
+    QTableView * view;
+    QPushButton * add_record_button;
+    QGroupBox * schedule_box;
 
     void initModel();
     void initView();
+    void initLayout();
+    void adjustViewHeight();
+    void adjustViewWidth();
 };
 
 #endif // SCHEDULEWIDGET_H
