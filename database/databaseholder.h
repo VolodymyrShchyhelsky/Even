@@ -32,6 +32,10 @@ private:
     void initTables();
     void createGuestTable();
     void createScheduleTable();
+    void createTableTable();
+    void createTagTable();
+    void createTableToGuestTable();
+    void createTagToGuestTable();
     void add(int id, int name);
 };
 

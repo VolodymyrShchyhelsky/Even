@@ -31,18 +31,9 @@ void DataBaseHolder::connectToDB() {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(PATH);
     if(!db.open()) {
-
         qDebug() <<"last er "<< db.lastError();
-
     } else {
-            createTables();
-
-     //   QSqlQuery* query = new QSqlQuery(ADD_Q, db);
-
-
-
-
-
+        createTables();
     }
 
 }
@@ -67,20 +58,24 @@ void DataBaseHolder::initTables()
 {
     tables.append(qMakePair<QString, fp>("guest",&DataBaseHolder::createGuestTable));
     tables.append(qMakePair<QString, fp>("schedule",&DataBaseHolder::createScheduleTable));
+    tables.append(qMakePair<QString, fp>("table",&DataBaseHolder::createTableTable));
+    tables.append(qMakePair<QString, fp>("tag",&DataBaseHolder::createTagTable));
+    tables.append(qMakePair<QString, fp>("tabletoguest",&DataBaseHolder::createTableToGuestTable));
+    tables.append(qMakePair<QString, fp>("tagtoguest",&DataBaseHolder::createTagToGuestTable));
 }
 
 void DataBaseHolder::createGuestTable() {
     QSqlQuery create_table = QSqlQuery(
             "create table guest"
-            "(id integer primary key, "
-            "age integer)", db);
+            "(id integer primary key AUTOINCREMENT, "
+            "surname varchar(20))", db);
     create_table.exec();
     QSqlQuery* addIntoTableQ1 = new QSqlQuery(
-            "insert into guest (id, age)"
+            "insert into guest (id, surname)"
             "values (?, ?)"
             );
     addIntoTableQ1->bindValue(0, 15);
-    addIntoTableQ1->bindValue(1, 15);
+    addIntoTableQ1->bindValue(1, "test sur");
     addIntoTableQ1->exec();
 
 }
@@ -93,6 +88,41 @@ void DataBaseHolder::createScheduleTable() {
             "start varchar(20), "
             "end varchar(20), "
             "description varchar(20))", db);
+    create_table.exec();
+}
+
+void DataBaseHolder::createTableTable() {
+    QSqlQuery create_table = QSqlQuery(
+            "create table table"
+            "(id integer primary key AUTOINCREMENT, "
+            "x integer, "
+            "y integer, "
+            "is_round integer, "
+            "capacity integer)", db);
+    create_table.exec();
+}
+
+void DataBaseHolder::createTagTable() {
+    QSqlQuery create_table = QSqlQuery(
+            "create table tag"
+            "(id integer primary key AUTOINCREMENT , "
+            "name varchar(20))", db);
+    create_table.exec();
+}
+
+void DataBaseHolder::createTableToGuestTable() {
+    QSqlQuery create_table = QSqlQuery(
+            "create table tabletoguest"
+            "(table_id integer, "
+            "guest_id integer)", db);
+    create_table.exec();
+}
+
+void DataBaseHolder::createTagToGuestTable() {
+    QSqlQuery create_table = QSqlQuery(
+            "create table tagtoguest"
+            "(tag_id integer , "
+            "guest_id integer)", db);
     create_table.exec();
 }
 
