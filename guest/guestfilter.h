@@ -23,10 +23,10 @@ public:
     QPushButton* uncheck_b;
     QPushButton* search_b;
 
-    QScrollArea* tag_scroll_area;
     QWidget* tags_widget;
     QVBoxLayout* tags_layout;
     QList< QPair<QCheckBox*, QString> > tags;
+    void initTags();
    // void init();
 signals:
 
@@ -34,7 +34,7 @@ public slots:
     void search();
 private:
     void initSearchLine();
-    void initTags();
+
 
 
 };

@@ -4,6 +4,7 @@ DataBaseHolder* DataBaseHolder::instance = nullptr;
 
 DataBaseHolder::DataBaseHolder()
 {
+    qDebug() <<"path"<<  PATH ;
     connectToDB();
 }
 
@@ -26,6 +27,11 @@ void DataBaseHolder::connectToDB() {
         qDebug() <<"last er "<< db.lastError();
     } else {
         createTables();
+//        QString name = "TEXT";
+//        QSqlQuery insert_tag = QSqlQuery("insert into tag (name) values (" + name + ")", db);
+//        qDebug() << "AAAAAA exe" << insert_tag.exec();
+//        QString tag_id = insert_tag.lastInsertId().toString();
+//            qDebug() << "ASASS save" << tag_id;
     }
 
 }

@@ -21,7 +21,6 @@ void GuestListBase::configureView() {
     for(auto str : visible_columns) {
         visible_indexes.append(guest_model->fieldIndex(str));
     }
-    qDebug() << "visible index" << visible_indexes;
     for(int i = 0; i < guest_model->columnCount(); ++i) {
         if(visible_indexes.indexOf(i) == -1) {
             guest_view->hideColumn(i);
@@ -44,7 +43,6 @@ void GuestListBase::applyFilters(QString filter) {
         }
         filter += basic_filter;
     }
-    qDebug() << "filter" << filter;
     guest_model->setFilter(filter);
     guest_model->select();
 }
@@ -57,8 +55,6 @@ QString GuestListBase::getId(const QModelIndex &index) {
         if(id_index.isValid()) {
             QString cellText = id_index.data().toString();
             return cellText;
-        } else  {
-            qDebug() << "Jopa";
         }
     }
     return "";

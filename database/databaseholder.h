@@ -11,6 +11,8 @@
 #include <QList>
 #include <QPair>
 #include "databaseconstants.h"
+#include <QCoreApplication>
+#include <QApplication>
 
 class DataBaseHolder
 {
@@ -26,7 +28,9 @@ private:
 
     void createTables();
     void connectToDB();
-    const QString PATH = "/Users/katerepekh/Qt/Programs/EvenGroupProject/Even/dataBase.db";
+    const QString PATH = QApplication::applicationDirPath() + "/dataBase.db";
+//    const QString PATH = "C:/Qt/WorkSpace/Even/dataBase.db";
+
     QSqlDatabase db;
 
     typedef void(DataBaseHolder::*fp)();

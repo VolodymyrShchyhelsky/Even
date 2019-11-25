@@ -6,8 +6,6 @@ GuestPage::GuestPage(QWidget *parent, QString id) : QWidget(parent), id(id)
     initListModel();
     initListView();
     this->show();
-//    QString str = age_text->text();
-//    qDebug() << "HERE " << str;
 }
 
 void GuestPage::initListView() {

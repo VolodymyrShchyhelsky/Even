@@ -3,8 +3,8 @@
 GuestListTableW::GuestListTableW(QWidget *parent) : GuestListBase(parent)
 {
     visible_columns << "surname";
-    guest_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     GuestListBase::init();
+    guest_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(guest_view, SIGNAL(clicked(const QModelIndex &)),
             this, SLOT(getLastId(const QModelIndex &)));
 }

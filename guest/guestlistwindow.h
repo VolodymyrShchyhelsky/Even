@@ -19,6 +19,7 @@
 #include "guestmainlist.h"
 #include "guestfilter.h"
 #include <QPushButton>
+#include "tagwindow.h"
 
 class GuestListWindow : public QWidget
 {
@@ -29,11 +30,12 @@ public:
 public slots:
     void addNewGest();
     void addTag();
+    void updateTag();
 
 private:
-    int w,h;
+    void showLayout();
 
-    QGridLayout* layout;
+    QGridLayout* layout = nullptr;
     GuestFilter* filter;
     GuestMainList* guest_list;
     QPushButton* add_new_guest_b;
