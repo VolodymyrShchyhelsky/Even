@@ -15,6 +15,7 @@ class GuestFilter : public QWidget
     Q_OBJECT
 public:
     explicit GuestFilter(GuestListBase* guest_list, QWidget *parent = nullptr);
+    QGridLayout* createTableWLayout();
     GuestListBase* guest_list;
 
     QComboBox* search_parameter;

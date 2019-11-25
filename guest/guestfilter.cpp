@@ -15,6 +15,16 @@ GuestFilter::GuestFilter(GuestListBase* guest_list, QWidget *parent) : QWidget(p
     qDebug() << "GuestFilter 9";
 }
 
+QGridLayout* GuestFilter::createTableWLayout() {
+    QGridLayout* layout = new QGridLayout;
+    layout->addWidget(search_line,0,0,1,3);
+    layout->addWidget(search_parameter,1,0,1,3);
+    layout->addWidget(search_b,0,3,2,2);
+    layout->addWidget(guest_list, 2, 0, 6, 3);
+    //layout->addWidget(tags_widget,2,3,6,2);
+    return layout;
+}
+
 void GuestFilter::initSearchLine() {
     for(auto str : guest_list->visible_columns) {
         qDebug() << "GuestFilter 15" << str;
