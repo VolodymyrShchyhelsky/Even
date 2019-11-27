@@ -12,7 +12,7 @@ const QString DATETIME_FORMAT = "dd/MM/yyyy HH:mm";
 
 
 const QString GUEST_TABLE = "guest";
-const QString TABLEGUEST_TABLE = "tableguest";
+const QString TABLEGUEST_TABLE = "tabletoguest";
 
 const QString TABLES_TABLE = "tables";
 const QString TABLES_X_COLUMN = "x";

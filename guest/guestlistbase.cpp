@@ -37,7 +37,7 @@ void GuestListBase::initModel() {
 }
 
 void GuestListBase::applyFilters(QString filter) {
-    if(basic_filter != "") {
+    if (basic_filter != "") {
         if(filter != "") {
             filter += " and ";
         }

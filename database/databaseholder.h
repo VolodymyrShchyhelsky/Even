@@ -13,6 +13,7 @@
 #include "databaseconstants.h"
 #include <QCoreApplication>
 #include <QApplication>
+#include <QVector4D>
 
 class DataBaseHolder
 {
@@ -20,14 +21,16 @@ public:
     QSqlDatabase getDB();
     static DataBaseHolder* getDbHolder();
 
-    QString insertNewTable(QString base_capacity, QString secondary_capacity);
-    void changeTableCoordinates(QString table_id, QString x, QString y);
-    void deleteTable(QString table_id);
-    void deleteTableGuestEntriesByTableId(QString table_id);
+    int insertNewTable(int base_capacity, int secondary_capacity);
+    void changeTableCoordinates(int table_id, int x, int y);
+    void deleteTable(int table_id);
+    void deleteTableGuestEntriesByTableId(int table_id);
+    QVector< QMap<QString, int> > getAllTables();
 
     QString getNameByGuestId(QString guest_id);
 
-    void addTableGuestEntry(QString table_id, QString guest_id);
+    void addTableGuestEntry(int table_id, QString guest_id);
+    QStringList getNamesOfGuestsOnTable(int table_id);
 
 private:
     static DataBaseHolder* instance;

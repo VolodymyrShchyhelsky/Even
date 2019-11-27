@@ -18,18 +18,39 @@ void RectangularTable::draw(bool active) {
     addRect(QRectF(x, y, width_in_pixels, height_in_pixels));
     int base_x_left = x - chair_diameter;
     int base_x_right = x + width_in_pixels;
+    int seated_guest_count = 0;
     for (int i = 0; i < height; ++i) {
-        addEllipse(QRectF(base_x_left, y + i * chair_diameter, chair_diameter, chair_diameter));
-        addEllipse(QRectF(base_x_right, y + i * chair_diameter, chair_diameter, chair_diameter));
+        int left_chair_y = y + i * chair_diameter;
+        addEllipse(QRectF(base_x_left, left_chair_y, chair_diameter, chair_diameter));
+        if (seated_guest_count < guest_names.length()) {
+            show_guest_name(base_x_left, left_chair_y, seated_guest_count++);
+        }
+        int right_chair_y = y + i * chair_diameter;
+        addEllipse(QRectF(base_x_right, right_chair_y, chair_diameter, chair_diameter));
+        if (seated_guest_count < guest_names.length()) {
+            show_guest_name(base_x_right, right_chair_y, seated_guest_count++);
+        }
     }
     int base_y_top = y - chair_diameter;
     int base_y_bottom = x + height_in_pixels;
     for (int i = 0; i < width; ++i) {
-        addEllipse(QRectF(x + i * chair_diameter, base_y_top, chair_diameter, chair_diameter));
-        addEllipse(QRectF(x + i * chair_diameter, base_y_bottom, chair_diameter, chair_diameter));
+        int top_chair_x = x + i * chair_diameter;
+        addEllipse(QRectF(top_chair_x, base_y_top, chair_diameter, chair_diameter));
+        if (seated_guest_count < guest_names.length()) {
+            show_guest_name(top_chair_x, base_y_top, seated_guest_count++);
+        }
+        int bottom_chair_x = x + i * chair_diameter;
+        addEllipse(QRectF(bottom_chair_x, base_y_bottom, chair_diameter, chair_diameter));
+        if (seated_guest_count < guest_names.length()) {
+            show_guest_name(bottom_chair_x, base_y_bottom, seated_guest_count++);
+        }
     }
 }
 
 QPair<int, int> RectangularTable::get_capacity() {
     return qMakePair(width, height);
+}
+
+int RectangularTable::get_total_capacity() {
+    return width * 2 + height * 2;
 }

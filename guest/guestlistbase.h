@@ -22,7 +22,7 @@ public slots:
 
 
 protected:
-    const QString basic_filter = "";
+    QString basic_filter = "";
     QTableView* guest_view;
 
     DataBaseHolder* db = DataBaseHolder::getDbHolder();

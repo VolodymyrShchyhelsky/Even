@@ -15,9 +15,8 @@ signals:
 
 public slots:
     void emitGuestId(const QModelIndex &index);
+    void updateModel();
 
-private:
-    const QString basic_filter = "id in (select guest_id from tabletoguest)";
 };
 
 

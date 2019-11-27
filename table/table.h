@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QtMath>
 #include <QDebug>
+#include <QGraphicsEllipseItem>
 
 class Table : public QGraphicsScene
 {
@@ -12,11 +13,13 @@ public:
     explicit Table(QObject *parent = nullptr);
     virtual void draw(bool active = false) = 0;
     virtual QPair<int, int> get_capacity() = 0;
+    virtual int get_total_capacity() = 0;
 
     void move(int dx, int dy);
-    void set_id(QString id);
-    QString get_id();
+    void set_id(int id);
+    int get_id();
     void add_guest(QString guest_name);
+    void set_guests(QStringList guest_names);
     bool can_seat();
 
 protected:
@@ -24,8 +27,10 @@ protected:
     const QBrush active_brush = QBrush(QColor(250,128,114));
     int x = 0;
     int y = 0;
-    QString id;
+    int id;
     QStringList guest_names;
+
+    void show_guest_name(int chair_x, int chair_y, int guest_number);
 
 signals:
 

@@ -2,6 +2,8 @@
 #define SEATINGHANDLER_H
 
 #include "tableview.h"
+#include "rectangulartable.h"
+#include "roundtable.h"
 #include <QMessageBox>
 #include <database/databaseholder.h>
 
@@ -10,6 +12,8 @@ class SeatingHandler : public QObject
     Q_OBJECT
 public:
     explicit SeatingHandler(QObject *parent = nullptr);
+    void loadTablesFromDatabase(QWidget *parent_widget);
+    void connectTableView(TableView * view);
 
 private:
     TableView * current_table_view = nullptr;
@@ -19,6 +23,7 @@ private:
     void askToChooseTableWithFreeSeats();
 
 signals:
+    void seatingUpdated();
 
 public slots:
     void addTable(Table * table);

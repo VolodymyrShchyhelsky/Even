@@ -19,9 +19,6 @@ public:
 
 signals:
 
-public slots:
-    void adjustView();
-
 private:
     DataBaseHolder * db;
     ScheduleSortFilterProxyModel * model;
@@ -32,8 +29,6 @@ private:
     void initModel();
     void initView();
     void initLayout();
-    void adjustViewHeight();
-    void adjustViewWidth();
 };
 
 #endif // SCHEDULEWIDGET_H

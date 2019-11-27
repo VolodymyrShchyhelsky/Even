@@ -25,7 +25,7 @@ private:
 
 signals:
     void tableChosen(TableView * this_table);
-    void tableUnchosen(TableView * this_table);
+    void coordinatesChanged(TableView * this_table);
 
 public slots:
 };

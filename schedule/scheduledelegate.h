@@ -5,6 +5,7 @@
 #include <QStyledItemDelegate>
 #include <QPainter>
 #include <QPalette>
+#include <QSortFilterProxyModel>
 
 class ScheduleDelegate : public QStyledItemDelegate
 {

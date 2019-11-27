@@ -2,7 +2,6 @@
 
 GuestListWindow::GuestListWindow(QWidget *parent) : QWidget(parent)
 {
-    this->setFixedSize(600, 600);
     add_new_guest_b = new QPushButton();
     add_new_guest_b->setText("Add guest");
     add_new_tag_b = new QPushButton();

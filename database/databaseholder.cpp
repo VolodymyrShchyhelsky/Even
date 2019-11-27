@@ -27,11 +27,6 @@ void DataBaseHolder::connectToDB() {
         qDebug() <<"last er "<< db.lastError();
     } else {
         createTables();
-//        QString name = "TEXT";
-//        QSqlQuery insert_tag = QSqlQuery("insert into tag (name) values (" + name + ")", db);
-//        qDebug() << "AAAAAA exe" << insert_tag.exec();
-//        QString tag_id = insert_tag.lastInsertId().toString();
-//            qDebug() << "ASASS save" << tag_id;
     }
 
 }
@@ -40,7 +35,6 @@ void DataBaseHolder::createTables()
 {
     initTables();
     QStringList db_tables = db.tables();
-    qDebug() << "query " <<db_tables;
     for (int i = 0; i < tables.size(); ++i) {
         auto table = tables[i];
         if(!db_tables.contains(table.first)) {
@@ -54,14 +48,12 @@ void DataBaseHolder::createTables()
 
 void DataBaseHolder::initTables()
 {
-    tables.append(qMakePair<QString, fp>("guest",&DataBaseHolder::createGuestTable));
-    tables.append(qMakePair<QString, fp>("schedule",&DataBaseHolder::createScheduleTable));
-    tables.append(qMakePair<QString, fp>("table",&DataBaseHolder::createTableTable));
-    tables.append(qMakePair<QString, fp>("tag",&DataBaseHolder::createTagTable));
-    tables.append(qMakePair<QString, fp>("tabletoguest",&DataBaseHolder::createTableToGuestTable));
-    tables.append(qMakePair<QString, fp>("tagtoguest",&DataBaseHolder::createTagToGuestTable));
     tables.append(qMakePair<QString, fp>(GUEST_TABLE, &DataBaseHolder::createGuestTable));
     tables.append(qMakePair<QString, fp>(SCHEDULE_TABLE, &DataBaseHolder::createScheduleTable));
+    tables.append(qMakePair<QString, fp>(TABLES_TABLE, &DataBaseHolder::createTableTable));
+    tables.append(qMakePair<QString, fp>("tag",&DataBaseHolder::createTagTable));
+    tables.append(qMakePair<QString, fp>(TABLEGUEST_TABLE, &DataBaseHolder::createTableToGuestTable));
+    tables.append(qMakePair<QString, fp>("tagtoguest",&DataBaseHolder::createTagToGuestTable));
     tables.append(qMakePair<QString, fp>("todo", &DataBaseHolder::createTodoTable));
 }
 
@@ -123,7 +115,7 @@ void DataBaseHolder::createTagTable() {
 
 void DataBaseHolder::createTableToGuestTable() {
     QSqlQuery create_table = QSqlQuery(
-            "create table tabletoguest"
+            "create table " + TABLEGUEST_TABLE +
             "(table_id integer, "
             "guest_id integer)", db);
     create_table.exec();
@@ -141,53 +133,58 @@ QString DataBaseHolder::getNameByGuestId(QString guest_id) {
     QSqlQuery get_name = QSqlQuery(
                 "select surname "
                 "from guest "
-                "where id=" + guest_id,
+                "where id=?",
                 db);
+    get_name.addBindValue(guest_id);
+    get_name.exec();
     get_name.next();
     return get_name.value(0).toString();
 }
 
-QString DataBaseHolder::insertNewTable(QString base_capacity, QString secondary_capacity) {
+int DataBaseHolder::insertNewTable(int base_capacity, int secondary_capacity) {
     QSqlQuery insert_new_table = QSqlQuery(
             "insert into " + TABLES_TABLE +
             "(" + TABLES_BASE_CAPACITY_COLUMN + ", " +
             TABLES_SECONDARY_CAPACITY_COLUMN + ")"
-            "values ('?', '?')",
+            " values (?, ?)",
             db);
-    insert_new_table.bindValue(0, base_capacity);
-    insert_new_table.bindValue(1, secondary_capacity);
-    return insert_new_table.lastInsertId().toString();
+    insert_new_table.addBindValue(base_capacity);
+    insert_new_table.addBindValue(secondary_capacity);
+    insert_new_table.exec();
+    return insert_new_table.lastInsertId().toInt();
 }
 
-void DataBaseHolder::deleteTable(QString table_id) {
+void DataBaseHolder::deleteTable(int table_id) {
     QSqlQuery delete_table = QSqlQuery(
                 "delete from " + TABLES_TABLE +
-                " where id=" + table_id,
+                " where id=?",
                 db);
+    delete_table.addBindValue(table_id);
     delete_table.exec();
     deleteTableGuestEntriesByTableId(table_id);
 }
 
-void DataBaseHolder::deleteTableGuestEntriesByTableId(QString table_id) {
+void DataBaseHolder::deleteTableGuestEntriesByTableId(int table_id) {
     QSqlQuery delete_tableguest_entries = QSqlQuery(
                 "delete from " + TABLEGUEST_TABLE +
-                " where table_id=" + table_id,
+                " where table_id=?",
                 db);
+    delete_tableguest_entries.addBindValue(table_id);
     delete_tableguest_entries.exec();
 }
 
-void DataBaseHolder::addTableGuestEntry(QString table_id, QString guest_id) {
+void DataBaseHolder::addTableGuestEntry(int table_id, QString guest_id) {
     QSqlQuery insert_new_entry = QSqlQuery(
             "insert into " + TABLEGUEST_TABLE +
             "(table_id, guest_id) "
-            "values ('?', '?')",
+            "values (?, ?)",
             db);
-    insert_new_entry.bindValue(0, table_id);
-    insert_new_entry.bindValue(1, guest_id);
-    insert_new_entry.exec();
+    insert_new_entry.addBindValue(table_id);
+    insert_new_entry.addBindValue(guest_id);
+    qDebug() << "guest to table" << insert_new_entry.exec() << table_id << guest_id;
 }
 
-void DataBaseHolder::changeTableCoordinates(QString table_id, QString x, QString y) {
+void DataBaseHolder::changeTableCoordinates(int table_id, int x, int y) {
     QSqlQuery change_coordinates = QSqlQuery(
                 "update " + TABLES_TABLE +
                 " set " +
@@ -195,10 +192,52 @@ void DataBaseHolder::changeTableCoordinates(QString table_id, QString x, QString
                 TABLES_Y_COLUMN + "=? " +
                 "where id=?",
                 db);
-    change_coordinates.bindValue(0, x);
-    change_coordinates.bindValue(1, y);
-    change_coordinates.bindValue(2, table_id);
+    change_coordinates.addBindValue(x);
+    change_coordinates.addBindValue(y);
+    change_coordinates.addBindValue(table_id);
+    change_coordinates.exec();
+
 }
 
+QVector< QMap<QString, int> > DataBaseHolder::getAllTables() {
+    QSqlQuery select_tables = QSqlQuery(
+                "select id," + TABLES_X_COLUMN + "," + TABLES_Y_COLUMN + "," + TABLES_BASE_CAPACITY_COLUMN + "," + TABLES_SECONDARY_CAPACITY_COLUMN +
+                " from "+ TABLES_TABLE,
+                db);
+    QSqlRecord empty_record = select_tables.record();
+    int id = empty_record.indexOf("id");
+    int x = empty_record.indexOf(TABLES_X_COLUMN);
+    int y = empty_record.indexOf(TABLES_Y_COLUMN);
+    int base_capacity = empty_record.indexOf(TABLES_BASE_CAPACITY_COLUMN);
+    int secondary_capacity = empty_record.indexOf(TABLES_SECONDARY_CAPACITY_COLUMN);
+    QVector< QMap<QString, int> > tables_data;
+    while (select_tables.next()) {
+        QMap<QString, int> table;
+        table["id"] = select_tables.value(id).toInt();
+        table[TABLES_X_COLUMN] = select_tables.value(x).toInt();
+        table[TABLES_Y_COLUMN] = select_tables.value(y).toInt();
+        table[TABLES_BASE_CAPACITY_COLUMN] = select_tables.value(base_capacity).toInt();
+        table[TABLES_SECONDARY_CAPACITY_COLUMN] = select_tables.value(secondary_capacity).toInt();
+        tables_data.append(table);
+    }
+    return tables_data;
+}
+
+QStringList DataBaseHolder::getNamesOfGuestsOnTable(int table_id) {
+    QSqlQuery get_names_of_guests_on_table = QSqlQuery(
+                "select surname "
+                "from " + GUEST_TABLE +
+                " join " + TABLEGUEST_TABLE +
+                " on " + GUEST_TABLE + ".id=" + TABLEGUEST_TABLE + ".guest_id "
+                "where " + TABLEGUEST_TABLE + ".table_id=?",
+                db);
+    get_names_of_guests_on_table.addBindValue(table_id);
+    get_names_of_guests_on_table.exec();
+    QStringList guest_names;
+    while (get_names_of_guests_on_table.next()) {
+        guest_names.append(get_names_of_guests_on_table.value(0).toString());
+    }
+    return guest_names;
+}
 
 
