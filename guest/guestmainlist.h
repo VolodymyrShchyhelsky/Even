@@ -8,12 +8,15 @@ class GuestMainList : public GuestListBase
     Q_OBJECT
 public:
     virtual ~GuestMainList() {};
-    explicit GuestMainList(QWidget *parent = nullptr);
+    explicit GuestMainList(QWidget* guest_window, QWidget *parent = nullptr);
 
 signals:
 
 public slots:
     void goToGuestPage(const QModelIndex &index);
+
+private:
+    QWidget* guest_window;
 };
 
 #endif // GUESTMAINLIST_H

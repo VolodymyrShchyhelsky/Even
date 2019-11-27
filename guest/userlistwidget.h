@@ -13,7 +13,7 @@
 
 //public slots:
 
-//    void getIndex(const QModelIndex &index);
+//    void getIndex();
 
 //private:
 //    QTableView* user_list_view;

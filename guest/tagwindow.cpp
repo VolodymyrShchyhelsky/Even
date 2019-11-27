@@ -68,7 +68,6 @@ void TagWindow::save() {
     QString tag_id = insert_tag.lastInsertId().toString();
     for(auto guest_id : without_tag->hide_list) {
         QSqlQuery insert_tag_to_guest = QSqlQuery("insert into tagtoguest (tag_id, guest_id) values (" + tag_id + ", " + guest_id + ")",DataBaseHolder::getDbHolder()->getDB());
-        insert_tag_to_guest.exec();
     }
     this->close();
     emit newTagAdded();

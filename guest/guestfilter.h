@@ -23,8 +23,7 @@ public:
     QPushButton* uncheck_b;
     QPushButton* search_b;
 
-    QWidget* tags_widget;
-    QVBoxLayout* tags_layout;
+    QWidget* tags_widget = nullptr;
     QList< QPair<QCheckBox*, QString> > tags;
     void initTags();
    // void init();

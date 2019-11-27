@@ -36,15 +36,14 @@ void GuestListWindow::addTag() {
 }
 
 void GuestListWindow::updateTag() {
-   // filter->initTags();
-   // layout->update();
+    filter->initTags();
     showLayout();
 }
 
 void GuestListWindow::addNewGest() {
     QSqlTableModel * model = static_cast<QSqlTableModel*>(guest_list->guest_model);
     QSqlRecord record = model->record();
-    record.setValue("surname", "empty_surname");
+    record.setValue("surname", "sur");
     model->insertRecord(-1, record);
     model->submitAll();
     model->select();

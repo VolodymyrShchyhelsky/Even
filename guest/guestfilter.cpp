@@ -49,10 +49,12 @@ void GuestFilter::search() {
 void GuestFilter::initTags() {
     tags.clear();
     QScrollArea* tag_scroll_area = new QScrollArea(this);
+    delete tags_widget;
     tags_widget = new QWidget(tag_scroll_area);
     QVBoxLayout* layout = new QVBoxLayout(tags_widget);
     layout->setAlignment(Qt::AlignTop);
     QSqlQuery get_tag = QSqlQuery("select * from tag", DataBaseHolder::getDbHolder()->getDB());
+    //TODO
     while(get_tag.next()) {
          QString tag_id = get_tag.value(0).toString();
          QString tag_name = get_tag.value(1).toString();
