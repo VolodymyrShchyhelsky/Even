@@ -28,8 +28,8 @@ private:
 
     void createTables();
     void connectToDB();
-    const QString PATH = QApplication::applicationDirPath() + "/dataBase.db";
-//    const QString PATH = "C:/Qt/WorkSpace/Even/dataBase.db";
+//    const QString PATH = QApplication::applicationDirPath() + "/dataBase.db";
+    const QString PATH = "C:/Qt/WorkSpace/Even/dataBase.db";
 
     QSqlDatabase db;
 
@@ -42,6 +42,7 @@ private:
     void createTagTable();
     void createTableToGuestTable();
     void createTagToGuestTable();
+    void createTodoTable();
     void add(int id, int name);
 };
 

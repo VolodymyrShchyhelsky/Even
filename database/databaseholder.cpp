@@ -62,6 +62,17 @@ void DataBaseHolder::initTables()
     tables.append(qMakePair<QString, fp>("tagtoguest",&DataBaseHolder::createTagToGuestTable));
     tables.append(qMakePair<QString, fp>(GUEST_TABLE, &DataBaseHolder::createGuestTable));
     tables.append(qMakePair<QString, fp>(SCHEDULE_TABLE, &DataBaseHolder::createScheduleTable));
+    tables.append(qMakePair<QString, fp>("todo", &DataBaseHolder::createTodoTable));
+}
+
+void DataBaseHolder::createTodoTable() {
+    QSqlQuery create_table = QSqlQuery(
+            "create table todo"
+            "(id integer primary key AUTOINCREMENT, "
+            "father_id integer not null, "
+            "name varchar(20) default \"enter_name\", "
+            "status integer default 0)" , db);
+    qDebug() << "create table" << create_table.exec();
 }
 
 void DataBaseHolder::createGuestTable() {
