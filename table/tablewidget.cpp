@@ -48,12 +48,12 @@ void TableWidget::initLayout() {
     connect(seating_handler, SIGNAL(seatingUpdated()),
             userList, SLOT(updateModel()));
     GuestFilter * filter = new GuestFilter(userList, this);
-    QGridLayout * userListLayout = filter->createTableWLayout();
+    QHBoxLayout * userListLayout = filter->createTableWLayout();
     QHBoxLayout * layout = new QHBoxLayout;
     table_graphics_widget = new QWidget(this);
     table_box->setParent(table_graphics_widget);
-    layout->addWidget(table_graphics_widget);
-    layout->addLayout(userListLayout);
+    layout->addWidget(table_graphics_widget, 3);
+    layout->addLayout(userListLayout, 1);
     setLayout(layout);
 }
 

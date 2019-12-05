@@ -1,6 +1,6 @@
 #include "guestpage.h"
 
-GuestPage::GuestPage(QString id, QWidget *parent) : QWidget(nullptr), id(id)
+GuestPage::GuestPage(QString id, QWidget *parent) : QWidget(parent), id(id)
 {
     qDebug() << "id" << id;
    // this->setFixedSize(600, 600);

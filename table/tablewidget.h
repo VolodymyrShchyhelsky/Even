@@ -13,6 +13,7 @@
 #include "seatinghandler.h"
 #include "guest/guestfilter.h"
 #include "guest/guestlisttablew.h"
+#include "table/seatinghandler.h"
 
 class TableWidget : public QWidget
 {

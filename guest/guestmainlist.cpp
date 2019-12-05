@@ -11,7 +11,7 @@ GuestMainList::GuestMainList(QWidget* guest_window, QWidget *parent) : GuestList
 }
 
 void GuestMainList::goToGuestPage(const QModelIndex & index) {
-  // guest_window->hide();
+  // guest_window->hide();;
   // guest_window->layout.h
-   GuestPage* guest_page = new GuestPage(getId(index));
+   GuestPage* guest_page = new GuestPage(getId(index), guest_window);
 }

@@ -7,6 +7,7 @@
 #include "schedule/schedulewidget.h"
 #include "guest/guestlistwindow.h"
 #include <QDockWidget>
+#include "todowindow.h"
 
 namespace Ui {
 class MainWindow;

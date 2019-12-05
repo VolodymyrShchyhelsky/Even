@@ -7,7 +7,6 @@ ScheduleSortFilterProxyModel::ScheduleSortFilterProxyModel(QObject *parent) : QS
 
 
 bool ScheduleSortFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
-    qDebug() << "less than" << left << right;
     const QSqlTableModel* model = static_cast<const QSqlTableModel*>(sourceModel());
     QPair<QDateTime, QDateTime> left_from_and_to = ScheduleTools::get_from_and_to(left, model);
     QPair<QDateTime, QDateTime> right_from_and_to = ScheduleTools::get_from_and_to(right, model);
@@ -27,8 +26,15 @@ void ScheduleSortFilterProxyModel::createRecord() {
     record.setValue(SCHEDULE_DESCRIPTION_COLUMN, "");
     record.setValue(SCHEDULE_FROM_COLUMN, QDateTime::currentDateTime().toString(DATETIME_FORMAT));
     record.setValue(SCHEDULE_TO_COLUMN, QDateTime::currentDateTime().toString(DATETIME_FORMAT));
-    qDebug() << model->insertRecord(-1, record);
     model->submitAll();
     model->select();
+}
 
+void ScheduleSortFilterProxyModel::deleteRecords(int row, int count) {
+    qDebug() << "delete records" << row << count;
+    QSqlTableModel * model = static_cast<QSqlTableModel*>(sourceModel());
+    model->removeRows(row,count);
+    model->database().commit();
+    model->submitAll();
+  //  model->select();
 }

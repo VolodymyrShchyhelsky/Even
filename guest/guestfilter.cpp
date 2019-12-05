@@ -12,15 +12,18 @@ GuestFilter::GuestFilter(GuestListBase* guest_list, QWidget *parent) : QWidget(p
     initTags();
 }
 
-QGridLayout* GuestFilter::createTableWLayout() {
-    QGridLayout* layout = new QGridLayout;
-    layout->addWidget(search_line,0,0,1,3);
-    layout->addWidget(search_parameter,1,0,1,3);
-    layout->addWidget(search_b,0,3,2,2);
-    layout->addWidget(guest_list, 2, 0, 6, 3);
-    layout->addWidget(tags_widget,2,3,6,2);
-    return layout;
+QHBoxLayout* GuestFilter::createTableWLayout() {
+    QHBoxLayout* layout = new QHBoxLayout;
 
+    QVBoxLayout* buttons_layout = new QVBoxLayout;
+    buttons_layout->addWidget(search_parameter);
+    buttons_layout->addWidget(search_line);
+    buttons_layout->addWidget(search_b);
+    buttons_layout->addWidget(tags_widget);
+
+    layout->addWidget(guest_list->guest_view, 2);
+    layout->addLayout(buttons_layout, 1);
+    return layout;
 }
 
 void GuestFilter::initSearchLine() {

@@ -11,9 +11,9 @@ void GuestListBase::init() {
 
 void GuestListBase::initListView() {
     guest_view = new QTableView(this);
+   // guest_view->siz
     guest_view->setModel(guest_model);
     configureView();
-    guest_view->show();
 }
 
 void GuestListBase::configureView() {

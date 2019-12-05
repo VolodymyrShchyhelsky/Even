@@ -17,6 +17,9 @@ class ScheduleWidget : public QWidget
 public:
     explicit ScheduleWidget(QWidget *parent = nullptr);
 
+public slots:
+    void deleteRecords();
+
 signals:
 
 private:
@@ -24,6 +27,7 @@ private:
     ScheduleSortFilterProxyModel * model;
     QTableView * view;
     QPushButton * add_record_button;
+    QPushButton * delete_records_button;
     QGroupBox * schedule_box;
 
     void initModel();

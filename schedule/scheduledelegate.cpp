@@ -9,7 +9,6 @@ void ScheduleDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 }
 
 bool ScheduleDelegate::shouldPaint(const QModelIndex &index) const {
-    qDebug() << "should paint" << index;
     const QSortFilterProxyModel* proxy_model = static_cast<const QSortFilterProxyModel*>(index.model());
     const QSqlTableModel * model = static_cast<const QSqlTableModel*>(proxy_model->sourceModel());
     QPair<QDateTime, QDateTime> from_and_to = ScheduleTools::get_from_and_to(proxy_model->mapToSource(index), model);

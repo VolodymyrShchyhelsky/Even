@@ -35,7 +35,7 @@ public slots:
 private:
     void showLayout();
 
-    QGridLayout* layout = nullptr;
+    QHBoxLayout* layout = nullptr;
     GuestFilter* filter;
     GuestMainList* guest_list;
     QPushButton* add_new_guest_b;

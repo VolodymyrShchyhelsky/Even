@@ -9,22 +9,31 @@ GuestListWindow::GuestListWindow(QWidget *parent) : QWidget(parent)
     connect(add_new_guest_b, SIGNAL (released()),this, SLOT (addNewGest()));
     connect(add_new_tag_b, SIGNAL (released()),this, SLOT (addTag()));
 
-    guest_list = new GuestMainList(this);
+    guest_list = new GuestMainList(0);
     filter = new GuestFilter(guest_list, this);
 
     showLayout();
 }
 
 void GuestListWindow::showLayout() {
+    qDebug() << "GuestListWindow::showLayout()";
     delete layout;
-    layout = new QGridLayout;
-    layout->addWidget(filter->search_line,0,0,1,4);
-    layout->addWidget(filter->search_parameter,0,4,1,3);
-    layout->addWidget(filter->search_b,0,7);
-    layout->addWidget(add_new_guest_b,0,8);
-    layout->addWidget(add_new_tag_b,0,9);
-    layout->addWidget(guest_list, 1, 0, 5, 9);
-    layout->addWidget(filter->tags_widget,1,9,5,1);
+    layout = new QHBoxLayout;
+
+    QVBoxLayout* buttons_layout = new QVBoxLayout;
+    buttons_layout->addWidget(filter->search_line);
+    buttons_layout->addWidget(filter->search_parameter);
+    buttons_layout->addWidget(filter->search_b);
+    buttons_layout->addWidget(add_new_guest_b);
+    buttons_layout->addWidget(add_new_tag_b);
+    buttons_layout->addWidget(filter->tags_widget);
+
+    QVBoxLayout* guest_layout = new QVBoxLayout;
+    guest_layout->addWidget(guest_list->guest_view);
+
+    layout->addLayout(guest_layout, 3);
+    layout->addLayout(buttons_layout, 1);
+
     this->setLayout(layout);
     this->show();
 }

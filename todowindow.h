@@ -40,10 +40,10 @@ signals:
 public slots:
     void addNew();
     void addGlobalTodo();
-    void editName();
     void finishEditing();
     void changeState(int);
     void initLayout();
+    void setActive(QTreeWidgetItem *item);
 
 private:
     QVBoxLayout* layout = nullptr;
@@ -60,7 +60,6 @@ private:
 
     QPushButton* add_b;
     QPushButton* add_global_todo;
-    QPushButton* edit;
     QCheckBox* active_b;
     QCheckBox* not_active_b;
 };

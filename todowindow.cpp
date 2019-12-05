@@ -32,14 +32,11 @@ void TodoWindow::initLayout() {
 
 void TodoWindow::initButtons() {
     add_b = new QPushButton("Add sub task");
-    edit = new QPushButton("Edit name");
     add_global_todo = new QPushButton("Add global todo");
     connect(add_b, SIGNAL (released()),this, SLOT (addNew()));
-    connect(edit, SIGNAL (released()),this, SLOT (editName()));
     connect(add_global_todo, SIGNAL (released()),this, SLOT (addGlobalTodo()));
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(add_b);
-    buttons_layout->addWidget(edit);
     buttons_layout->addWidget(add_global_todo);
     buttons_layout->addWidget(active_b);
     buttons_layout->addWidget(not_active_b);
@@ -59,20 +56,6 @@ void TodoWindow::addNew() {
     }
 }
 
-void TodoWindow::editName() {
-    QTreeWidgetItem * cur_item = view->currentItem();
-    if(cur_item) {
-       // cur_item->setBackgroundColor(1, 12);
-        QLineEdit* line_edit = dynamic_cast<QLineEdit*>(view->itemWidget(cur_item, 1));
-        line_edit->setCursor(Qt::IBeamCursor);
-        line_edit->setCursorPosition(0);
-       // line_edit->setStyleSheet("QLineEdit {background-color: black;}");
-        //line_edit->s
-        line_edit->setReadOnly(false);
-        connect(line_edit, SIGNAL(editingFinished()), this, SLOT(finishEditing()));
-    }
-}
-
 void TodoWindow::finishEditing() {
     QTreeWidgetItem * cur_item = view->currentItem();
     if(cur_item) {
@@ -80,7 +63,6 @@ void TodoWindow::finishEditing() {
         QLineEdit* line_edit = dynamic_cast<QLineEdit*>(view->itemWidget(cur_item, 1));
         QString new_name = line_edit->text();
         QSqlQuery update_name = QSqlQuery("update todo set name='" + new_name + "'where id=" + id, DataBaseHolder::getDbHolder()->getDB());
-        line_edit->setReadOnly(true);
         initLayout();
     }
 }
@@ -88,6 +70,9 @@ void TodoWindow::finishEditing() {
 void TodoWindow::initView() {
     getTodosFromDb();
     view = new QTreeWidget();
+    view->setMouseTracking(true);
+//    connect(view, SIGNAL(itemEntered(QTreeWidgetItem*, int)),
+//            this, SLOT(setActive(QTreeWidgetItem*)));
     QStringList columnNames;
     columnNames << "Id" << "Name" << "Status";
     view->setHeaderLabels(columnNames);
@@ -97,10 +82,15 @@ void TodoWindow::initView() {
     initItemsStatus();
 }
 
+void TodoWindow::setActive(QTreeWidgetItem *item) {
+    qDebug() << "in set active";
+    view->setCurrentItem(item);
+}
+
 void TodoWindow::initItemsStatus() {
     for(QTreeWidgetItem * item : all_todo_items) {
         QLineEdit* name_line = new QLineEdit(item->text(1));
-        name_line->setReadOnly(true);
+        connect(name_line, SIGNAL(editingFinished()), this, SLOT(finishEditing()));
         view->setItemWidget(item, 1, name_line);
         QCheckBox* check_box = new QCheckBox();
         if(item->text(2) == "0") {

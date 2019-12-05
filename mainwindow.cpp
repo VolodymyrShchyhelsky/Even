@@ -70,5 +70,5 @@ void MainWindow::showSchedule() {
 }
 
 void MainWindow::showTodos() {
-    updateCentralWidget(new QWidget(this));
+    updateCentralWidget(new TodoWindow(this));
 }
