@@ -14,7 +14,6 @@
 #include <QLayout>
 #include <memory>
 #include "database/databaseholder.h"
-#include "userlistwidget.h"
 #include "guestlisttablew.h"
 #include "guestmainlist.h"
 #include "guestfilter.h"
@@ -31,10 +30,9 @@ public slots:
     void addNewGest();
     void addTag();
     void updateTag();
-
-private:
     void showLayout();
 
+private:
     QHBoxLayout* layout = nullptr;
     GuestFilter* filter;
     GuestMainList* guest_list;

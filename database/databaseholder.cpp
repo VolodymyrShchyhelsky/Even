@@ -71,16 +71,11 @@ void DataBaseHolder::createGuestTable() {
     QSqlQuery create_table = QSqlQuery(
             "create table guest"
             "(id integer primary key AUTOINCREMENT, "
-            "surname varchar(20))", db);
+            "name varchar(20),"
+            "surname varchar(20),"
+            "email varchar(20),"
+            "phone varchar(20))", db);
     create_table.exec();
-    QSqlQuery* addIntoTableQ1 = new QSqlQuery(
-            "insert into guest (id, surname)"
-            "values (?, ?)"
-            );
-    addIntoTableQ1->bindValue(0, 15);
-    addIntoTableQ1->bindValue(1, "test sur");
-    addIntoTableQ1->exec();
-
 }
 
 void DataBaseHolder::createScheduleTable() {

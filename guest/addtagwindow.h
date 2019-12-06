@@ -36,6 +36,7 @@ private:
     QString id;
     QTableView* view;
     QSqlTableModel* model;
+    //QWidget* guest_page
 
     void initListView();
     void initListModel();

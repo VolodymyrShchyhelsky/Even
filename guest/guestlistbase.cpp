@@ -31,8 +31,8 @@ void GuestListBase::configureView() {
 void GuestListBase::initModel() {
     guest_model = new QSqlTableModel(nullptr, db->getDB());
     guest_model->setTable("guest");
-    int surnameColumn = guest_model->fieldIndex("surname");
-    guest_model->sort(surnameColumn, Qt::AscendingOrder);
+//    int surnameColumn = guest_model->fieldIndex("surname");
+//    guest_model->sort(surnameColumn, Qt::AscendingOrder);
     applyFilters();
 }
 

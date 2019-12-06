@@ -9,7 +9,7 @@ GuestListWindow::GuestListWindow(QWidget *parent) : QWidget(parent)
     connect(add_new_guest_b, SIGNAL (released()),this, SLOT (addNewGest()));
     connect(add_new_tag_b, SIGNAL (released()),this, SLOT (addTag()));
 
-    guest_list = new GuestMainList(0);
+    guest_list = new GuestMainList(this);
     filter = new GuestFilter(guest_list, this);
 
     showLayout();
@@ -17,6 +17,7 @@ GuestListWindow::GuestListWindow(QWidget *parent) : QWidget(parent)
 
 void GuestListWindow::showLayout() {
     qDebug() << "GuestListWindow::showLayout()";
+    guest_list->guest_model->select();
     delete layout;
     layout = new QHBoxLayout;
 
@@ -51,8 +52,8 @@ void GuestListWindow::updateTag() {
 void GuestListWindow::addNewGest() {
     QSqlTableModel * model = static_cast<QSqlTableModel*>(guest_list->guest_model);
     QSqlRecord record = model->record();
-    record.setValue("surname", "sur");
     model->insertRecord(-1, record);
     model->submitAll();
     model->select();
+    emit guest_list->guest_view->clicked(model->index(model->rowCount()-1,1));
 }

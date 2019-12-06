@@ -2,8 +2,7 @@
 
 GuestPage::GuestPage(QString id, QWidget *parent) : QWidget(parent), id(id)
 {
-    qDebug() << "id" << id;
-   // this->setFixedSize(600, 600);
+    this->setFixedSize(600, 200);
     initListModel();
     initButtons();
     initTags();
@@ -13,76 +12,99 @@ GuestPage::GuestPage(QString id, QWidget *parent) : QWidget(parent), id(id)
 void GuestPage::initEditLayout() {
     tags_buttons = new QVBoxLayout();
     tags_buttons->addWidget(add_tag_b);
-    tags_buttons->addWidget(tags_widget);
+    tags_buttons->addWidget(tag_scroll_area);
+    tags_buttons->addWidget(save_b);
     tags_buttons->addWidget(delete_b);
 }
 
 void GuestPage::initButtons() {
-    qDebug() << __func__;
-    delete_b = new QPushButton("delete");
+    delete_b = new QPushButton("Delete");
     connect(delete_b, SIGNAL (released()),this, SLOT (deleteGuest()));
-    add_tag_b = new QPushButton();
-    add_tag_b->setText("add_tag_b");
+    add_tag_b = new QPushButton("Add tag");
     connect(add_tag_b, SIGNAL (released()),this, SLOT (addTag()));
+    save_b = new QPushButton("Save");
+    connect(save_b, SIGNAL (released()),this, SLOT (save()));
+}
+
+void GuestPage::save() {
+    qDebug() << "MAP SUBMIT" << mapper->submit();
+    this->close();
+    emit guestInfoSaved();
 }
 
 void GuestPage::initInfo() {
     qDebug() << __func__;
     info = new QVBoxLayout();
+    QSpacerItem* spacer = new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    QHBoxLayout* hbox_name = new QHBoxLayout();
+    name_title = new QLabel("Name: ");
+    info->addWidget(name_title);
+    info->addWidget(name);
 
-    QHBoxLayout* hbox;
-    surname = new QLineEdit;
-    surname_title = new QLineEdit;
-    surname_title->setText("Surname: ");
-    surname_title->setReadOnly(true);
-    hbox = new QHBoxLayout();
-    hbox->addWidget(surname_title);
-    hbox->addWidget(surname);
-    info->addLayout(hbox);
+    QHBoxLayout* hbox_surname = new QHBoxLayout();
+    surname_title = new QLabel("Surname: ");
+    info->addWidget(surname_title);
+    info->addWidget(surname);
 
+    QHBoxLayout* hbox_phone = new QHBoxLayout();
+    phone_title = new QLabel("Phone: ");
+    info->addWidget(phone_title);
+    info->addWidget(phone);
+
+    QHBoxLayout* hbox_email = new QHBoxLayout();
+    email_title = new QLabel("Email: ");
+    info->addWidget(email_title);
+    info->addWidget(email);
+    info->addSpacerItem(spacer);
+//    info->addLayout(hbox_name);
+//    info->addLayout(hbox_surname);
+//    info->addLayout(hbox_phone);
+//    info->addLayout(hbox_email);
     initDataMapper();
 }
 
 void GuestPage::initTags() {
-     qDebug() << __func__;
-    QScrollArea* tag_scroll_area = new QScrollArea();
-    qDebug() << __func__;
-    tags_widget = new QWidget(tag_scroll_area);
-    qDebug() << __func__;
+//    QScrollArea* tag_scroll_area = new QScrollArea();
+//    tag_scroll_area->setWidgetResizable(true);
+//    tags_widget = new QWidget(tag_scroll_area);
+//    QVBoxLayout* tags_layout = new QVBoxLayout(tags_widget);
+
+    tag_scroll_area = new QScrollArea();
+    tags_widget = new QWidget();
     QVBoxLayout* tags_layout = new QVBoxLayout(tags_widget);
-    tags_layout->setAlignment(Qt::AlignTop);
+    tag_scroll_area->setWidget(tags_widget);
+    tag_scroll_area->setWidgetResizable(true);
+
+    //tags_layout->setAlignment(Qt::AlignTop);
     QSqlQuery get_tag = QSqlQuery("select tag_id from tagtoguest where guest_id = " + id, DataBaseHolder::getDbHolder()->getDB());
-    qDebug() << __func__;
     while(get_tag.next()) {
-         qDebug() << "in while 1";
          QString tag_id = get_tag.value(0).toString();
          QSqlQuery get_tag_name = QSqlQuery("select name from tag where id = " + tag_id, DataBaseHolder::getDbHolder()->getDB());
          get_tag_name.next();
-         qDebug() << "in while 1";
          QString tag_name = get_tag_name.value(0).toString();
          DescriptionButton* del = new DescriptionButton(tag_id, "del");
          connect(del, SIGNAL(descriptionSignal(QString)),
                  this, SLOT(deleteTag(QString)));
-         qDebug() << "in while 1";
          QHBoxLayout* hbox = new QHBoxLayout();
+         //hbox->setS
          QLineEdit* tag_name_line = new QLineEdit();
          tag_name_line->setText(tag_name);
          tag_name_line->setReadOnly(true);
          hbox->addWidget(tag_name_line);
          hbox->addWidget(del);
          tags_layout->addLayout(hbox);
-         qDebug() << "in while 1";
     }
 }
 
 void GuestPage::deleteTag(QString tag_id) {
-    qDebug() << __func__;
     QSqlQuery del_tag = QSqlQuery("delete from tagtoguest where guest_id = " + id + " and tag_id = " + tag_id, DataBaseHolder::getDbHolder()->getDB());
+    updateTags();
+}
+
+void GuestPage::updateTags() {
     delete tags_widget;
-    qDebug() << __func__;
     initTags();
     showLayout();
-
 }
 
 void GuestPage::showLayout() {
@@ -101,9 +123,13 @@ void GuestPage::showLayout() {
 
 void GuestPage::initDataMapper() {
     qDebug() << __func__;
-    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+    mapper = new QDataWidgetMapper(this);
+    mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     mapper->setModel(user_list_model);
-    mapper->addMapping(surname, 1);
+    mapper->addMapping(name, 1);
+    mapper->addMapping(surname, 2);
+    mapper->addMapping(email, 3);
+    mapper->addMapping(phone, 4);
     mapper->toFirst();
 }
 
@@ -127,7 +153,9 @@ void GuestPage::deleteGuest() {
 }
 
 void GuestPage::addTag() {
-    AddTagWindow* tag_w = new AddTagWindow(id);
+    AddTagWindow* tag_w = new AddTagWindow(id, this);
+    tag_w->setAttribute( Qt::WA_DeleteOnClose );
+    connect( tag_w, SIGNAL(destroyed(QObject*)), this, SLOT(updateTags()) );
     //initTags();
     //showLayout();
 }

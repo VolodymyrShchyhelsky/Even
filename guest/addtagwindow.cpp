@@ -1,6 +1,6 @@
 #include "addtagwindow.h"
 
-AddTagWindow::AddTagWindow(QString id, QWidget *parent) : QWidget(parent)
+AddTagWindow::AddTagWindow(QString id, QWidget *parent) : QWidget(nullptr)
 {
     this->id = id;
     model = new QSqlTableModel(nullptr, DataBaseHolder::getDbHolder()->getDB());
