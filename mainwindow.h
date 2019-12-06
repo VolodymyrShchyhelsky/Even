@@ -6,6 +6,7 @@
 #include <QScreen>
 #include "schedule/schedulewidget.h"
 #include "guest/guestlistwindow.h"
+#include "todowindow.h"
 #include <QDockWidget>
 #include "todowindow.h"
 

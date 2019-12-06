@@ -10,8 +10,8 @@ Todo::Todo(QString id, QString father_id, QString name, QString is_active) {
 TodoWindow::TodoWindow(QWidget *parent) : QWidget(parent)
 {
     this->setMinimumSize(600,600);
-    active_b = new QCheckBox("Show complete todo's");
-    not_active_b = new QCheckBox("Show not complete todo's");
+    active_b = new QCheckBox("Show complete todos");
+    not_active_b = new QCheckBox("Show incomplete todos");
     active_b->setCheckState(Qt::Checked);
     not_active_b->setCheckState(Qt::Checked);
     connect(active_b, SIGNAL(stateChanged(int)), this, SLOT(initLayout()));
@@ -55,7 +55,6 @@ void TodoWindow::addNew() {
         initLayout();
     }
 }
-
 void TodoWindow::finishEditing() {
     QTreeWidgetItem * cur_item = view->currentItem();
     if(cur_item) {

@@ -10,7 +10,7 @@ class ScheduleSortFilterProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 public:
     explicit ScheduleSortFilterProxyModel(QObject *parent = nullptr);
-    void deleteRecords(int row, int count);
+    void deleteRecords(const QModelIndexList &indexes);
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;

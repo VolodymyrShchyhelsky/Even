@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(QGuiApplication::primaryScreen()->size());
     showTodos();
     initDockWidget();
+    setStyleSheet("QPushButton:pressed { background-color: blue; color: white }"
+                  "QPushButton {background-color: white; color: blue; border: 1px solid blue }");
 }
 
 MainWindow::~MainWindow()
@@ -43,10 +45,13 @@ void MainWindow::initDockWidget() {
     page_choice_widget->setLayout(layout);
 
     dock_widget->setWidget(page_choice_widget);
+    dock_widget->setTitleBarWidget(new QWidget(dock_widget));
     dock_widget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    //dock_widget->setWindowTitle("WELCOME ");
 
     addDockWidget(Qt::DockWidgetArea::TopDockWidgetArea, dock_widget);
+    dock_widget->adjustSize();
+    dock_widget->setFixedSize(dock_widget->size());
+    dock_widget->setFixedWidth(width());
 }
 
 void MainWindow::updateCentralWidget(QWidget * new_central_widget) {

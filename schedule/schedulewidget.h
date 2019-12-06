@@ -32,6 +32,7 @@ private:
 
     void initModel();
     void initView();
+    void adjustTableView();
     void initLayout();
 };
 
