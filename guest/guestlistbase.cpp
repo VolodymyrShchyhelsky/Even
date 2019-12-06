@@ -11,7 +11,6 @@ void GuestListBase::init() {
 
 void GuestListBase::initListView() {
     guest_view = new QTableView(this);
-   // guest_view->siz
     guest_view->setModel(guest_model);
     configureView();
 }
@@ -31,8 +30,6 @@ void GuestListBase::configureView() {
 void GuestListBase::initModel() {
     guest_model = new QSqlTableModel(nullptr, db->getDB());
     guest_model->setTable("guest");
-//    int surnameColumn = guest_model->fieldIndex("surname");
-//    guest_model->sort(surnameColumn, Qt::AscendingOrder);
     applyFilters();
 }
 
@@ -43,6 +40,7 @@ void GuestListBase::applyFilters(QString filter) {
         }
         filter += basic_filter;
     }
+    qDebug() << "Filter " << filter;
     guest_model->setFilter(filter);
     guest_model->select();
 }

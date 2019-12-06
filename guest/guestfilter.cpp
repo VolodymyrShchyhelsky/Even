@@ -7,6 +7,12 @@ GuestFilter::GuestFilter(GuestListBase* guest_list, QWidget *parent) : QWidget(p
     uncheck_b = new QPushButton();
     search_b = new QPushButton();
     search_b->setText("Search");
+
+    show_attend = new QCheckBox("Show attend");
+    show_not_attend = new QCheckBox("Show attend");
+    show_attend->setCheckState(Qt::Checked);
+    show_not_attend->setCheckState(Qt::Checked);
+
     this->guest_list = guest_list;
     initSearchLine();
     initTags();
@@ -38,7 +44,7 @@ void GuestFilter::search() {
     QString text = search_line->text();
     if(text != "") {
         QString param = search_parameter->currentText();
-        filter = text + " = " + param + " and ";
+        filter = param + " like '%" + text + "%' and ";
     }
     for(auto tag = tags.begin(); tag != tags.end(); ++tag) {
         if(tag->first->checkState() == Qt::Checked) {
@@ -46,6 +52,12 @@ void GuestFilter::search() {
             filter += " id in (select guest_id from tagtoguest where tag_id = " + tag_id + ") and ";
         }
     }
+//    if(true) { //time for check
+//        if show_attend.
+//        filter += " is_present in " +
+//    } else {
+//
+//    }
     filter = filter.left(filter.length() - 4);
     guest_list->applyFilters(filter);
 }
