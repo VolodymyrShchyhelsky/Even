@@ -2,7 +2,7 @@
 
 GuestPage::GuestPage(QString id, QWidget *parent) : QWidget(parent), id(id)
 {
-    this->setFixedSize(600, 200);
+    this->setFixedSize(600, 300);
     initListModel();
     initButtons();
     initTags();

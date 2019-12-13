@@ -74,7 +74,8 @@ void DataBaseHolder::createGuestTable() {
             "name varchar(20),"
             "surname varchar(20),"
             "email varchar(20),"
-            "phone varchar(20))", db);
+            "phone varchar(20),"
+            "present integer default 0)", db);
     create_table.exec();
 }
 

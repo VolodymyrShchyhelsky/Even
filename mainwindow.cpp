@@ -63,7 +63,13 @@ void MainWindow::updateCentralWidget(QWidget * new_central_widget) {
 
 
 void MainWindow::showGuests() {
-    updateCentralWidget(new GuestListWindow(this));
+    QSqlTableModel * sql_model = new QSqlTableModel(nullptr, DataBaseHolder::getDbHolder()->getDB());
+    sql_model->setTable(SCHEDULE_TABLE);
+    ScheduleSortFilterProxyModel * model = new ScheduleSortFilterProxyModel(this);
+    sql_model->select();
+    model->setSourceModel(sql_model);
+    QDateTime start_time = model->getStartTime();
+    updateCentralWidget(new GuestListWindow(start_time, this));
 }
 
 void MainWindow::showTables() {

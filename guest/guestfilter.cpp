@@ -38,7 +38,7 @@ void GuestFilter::search() {
     QString text = search_line->text();
     if(text != "") {
         QString param = search_parameter->currentText();
-        filter = text + " = " + param + " and ";
+        filter = param + " like '%" + text + "%' and ";
     }
     for(auto tag = tags.begin(); tag != tags.end(); ++tag) {
         if(tag->first->checkState() == Qt::Checked) {

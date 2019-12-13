@@ -16,7 +16,7 @@ public:
     QStringList visible_columns;
     void applyFilters(QString filter = "");
     virtual ~GuestListBase() {}
-        QTableView* guest_view;
+    QTableView* guest_view;
 signals:
 
 public slots:

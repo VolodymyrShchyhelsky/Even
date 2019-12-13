@@ -14,30 +14,17 @@ QPair<QDateTime, QDateTime> ScheduleTools::get_from_and_to(const QModelIndex &in
     QModelIndex from_index = model->index(row, from_column);
     QModelIndex to_index = model->index(row, to_column);
 
-    QDateTime from = QDateTime::fromString(from_index.data().toString(), DATETIME_FORMAT);
-    QDateTime to = QDateTime::fromString(to_index.data().toString(), DATETIME_FORMAT);
+    QDateTime from = variantToDateTime(from_index.data());
+    QDateTime to = variantToDateTime(to_index.data());
 
     return qMakePair(from, to);
-
-
-    /*
-    qDebug() << index.isValid() << index.data().toString();
-
-    int row = index.row();
-    qDebug() << row << "ROW";
-    qDebug() << index.data().toString() << "id";
-
-    QSqlDatabase db = getDatabase();
-    QSqlQuery query("SELECT " + SCHEDULE_FROM_COLUMN + ", " + SCHEDULE_TO_COLUMN +
-                    " FROM " + SCHEDULE_TABLE +
-                    " WHERE id==" + index.data().toString());
-    query.next();
-    QDateTime from = QDateTime::fromString(query.value(0).toString(), DATETIME_FORMAT);
-    QDateTime to = QDateTime::fromString(query.value(1).toString(), DATETIME_FORMAT);
-
-    return qMakePair(from, to);*/
 }
 
 QSqlDatabase ScheduleTools::getDatabase() {
     return DataBaseHolder::getDbHolder()->getDB();
+}
+
+QDateTime ScheduleTools::variantToDateTime(QVariant variant) {
+    QString date_as_string = variant.toString();
+    return QDateTime::fromString(date_as_string, DATETIME_FORMAT);
 }

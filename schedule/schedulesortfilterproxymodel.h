@@ -11,6 +11,7 @@ class ScheduleSortFilterProxyModel : public QSortFilterProxyModel
 public:
     explicit ScheduleSortFilterProxyModel(QObject *parent = nullptr);
     void deleteRecords(const QModelIndexList &indexes);
+    QDateTime getStartTime();
 
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;

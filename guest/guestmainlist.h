@@ -2,13 +2,15 @@
 #define GUESTMAINLIST_H
 
 #include "guestlistbase.h"
+#include "guestdelegate.h"
+#include <QDateTime>
 
 class GuestMainList : public GuestListBase
 {
     Q_OBJECT
 public:
     virtual ~GuestMainList() {};
-    explicit GuestMainList(QWidget* guest_window, QWidget *parent = nullptr);
+    explicit GuestMainList(QDateTime start_time, QWidget* guest_window, QWidget *parent = nullptr);
 
 signals:
 

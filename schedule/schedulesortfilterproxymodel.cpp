@@ -20,6 +20,16 @@ void ScheduleSortFilterProxyModel::sortByDateTime() {
     sort(0);
 }
 
+QDateTime ScheduleSortFilterProxyModel::getStartTime() {
+    sort(0);
+    QModelIndex start_time_cell = index(0, 1);
+    QDateTime start_time;
+    if (start_time_cell.isValid()) {
+        start_time = ScheduleTools::variantToDateTime(start_time_cell.data());
+    }
+    return start_time;
+}
+
 void ScheduleSortFilterProxyModel::createRecord() {
     QSqlTableModel * model = static_cast<QSqlTableModel*>(sourceModel());
     QSqlRecord record = model->record();

@@ -24,7 +24,7 @@ class GuestListWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GuestListWindow(QWidget *parent = nullptr);
+    explicit GuestListWindow(QDateTime start_time, QWidget *parent = nullptr);
 
 public slots:
     void addNewGest();
