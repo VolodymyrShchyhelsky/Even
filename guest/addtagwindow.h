@@ -33,6 +33,8 @@ public slots:
     void addTag(const QModelIndex &index);
 
 private:
+    friend class TestAddTag;
+
     QString id;
     QTableView* view;
     QSqlTableModel* model;

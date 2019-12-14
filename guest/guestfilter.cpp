@@ -1,4 +1,5 @@
 #include "guestfilter.h"
+#include "guestlistwindow.h"
 
 GuestFilter::GuestFilter(GuestListBase* guest_list, QWidget *parent) : QWidget(parent)
 {
@@ -63,7 +64,21 @@ void GuestFilter::initTags() {
          QString tag_id = get_tag.value(0).toString();
          QString tag_name = get_tag.value(1).toString();
          QCheckBox* check = new QCheckBox(tag_name,tags_widget);
+         DescriptionButton* del = new DescriptionButton(tag_id, "del");
+         connect(del, SIGNAL(descriptionSignal(QString)),
+                 this, SLOT(deleteTag(QString)));
+         QHBoxLayout* hbox = new QHBoxLayout();
+         hbox->addWidget(check);
+         hbox->addWidget(del);
          tags.append(QPair<QCheckBox*, QString>(check, tag_id));
-         layout->addWidget(check);
+         layout->addLayout(hbox);
     }
+}
+
+void GuestFilter::deleteTag(QString tag_id) {
+    QSqlQuery del_tag_to_guest = QSqlQuery("delete from tagtoguest where tag_id = " + tag_id, DataBaseHolder::getDbHolder()->getDB());
+    QSqlQuery del_tag = QSqlQuery("delete from tag where id = " + tag_id, DataBaseHolder::getDbHolder()->getDB());
+    initTags();
+    GuestListWindow* parent = dynamic_cast<GuestListWindow*>(parentWidget());
+    parent->showLayout();
 }

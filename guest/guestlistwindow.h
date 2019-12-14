@@ -28,11 +28,13 @@ public:
 
 public slots:
     void addNewGest();
-    void addTag();
+    TagWindow* addTag();
     void updateTag();
     void showLayout();
 
 private:
+    friend class TestGuestListWindow;
+
     QHBoxLayout* layout = nullptr;
     GuestFilter* filter;
     GuestMainList* guest_list;

@@ -31,9 +31,10 @@ signals:
 
 public slots:
     void search();
+    void deleteTag(QString tag_id);
 private:
     void initSearchLine();
-
+    friend class TestGuestFilter;
 
 
 };

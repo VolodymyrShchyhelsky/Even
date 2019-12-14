@@ -33,11 +33,14 @@ void TodoWindow::initLayout() {
 void TodoWindow::initButtons() {
     add_b = new QPushButton("Add sub task");
     add_global_todo = new QPushButton("Add global todo");
+    remove_b = new QPushButton("Delete todo");
     connect(add_b, SIGNAL (released()),this, SLOT (addNew()));
+    connect(remove_b, SIGNAL (released()),this, SLOT (remove()));
     connect(add_global_todo, SIGNAL (released()),this, SLOT (addGlobalTodo()));
     buttons_layout = new QHBoxLayout;
     buttons_layout->addWidget(add_b);
     buttons_layout->addWidget(add_global_todo);
+    buttons_layout->addWidget(remove_b);
     buttons_layout->addWidget(active_b);
     buttons_layout->addWidget(not_active_b);
 }
@@ -55,6 +58,16 @@ void TodoWindow::addNew() {
         initLayout();
     }
 }
+
+void TodoWindow::remove() {
+    QTreeWidgetItem * cur_item = view->currentItem();
+    if(cur_item) {
+        QString id = cur_item->text(0);
+        QSqlQuery remove = QSqlQuery("delete from todo where id == " + id);
+        initLayout();
+    }
+}
+
 void TodoWindow::finishEditing() {
     QTreeWidgetItem * cur_item = view->currentItem();
     if(cur_item) {

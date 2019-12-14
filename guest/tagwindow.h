@@ -22,6 +22,8 @@ public slots:
     void discard();
 
 private:
+    friend class TestTagWindow;
+
     void showTagW();
     void initButtons();
     void initLists();

@@ -27,7 +27,7 @@ public:
     explicit GuestPage(QString id, QWidget *parent = nullptr);
 
 signals:
-    void guestInfoSaved();
+    void guestInfoUpdated();
 
 public slots:
     void deleteGuest();

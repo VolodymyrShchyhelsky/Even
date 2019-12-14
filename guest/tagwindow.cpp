@@ -64,6 +64,9 @@ void TagWindow::getIdFromWithout(QString id) {
 
 void TagWindow::save() {
     QString name = name_l->text();
+    if(name.isEmpty()) {
+        return;
+    }
     QSqlQuery insert_tag = QSqlQuery("insert into tag (name) values('" + name + "')", DataBaseHolder::getDbHolder()->getDB());
     QString tag_id = insert_tag.lastInsertId().toString();
     for(auto guest_id : without_tag->hide_list) {

@@ -34,9 +34,10 @@ void GuestListWindow::showLayout() {
     this->show();
 }
 
-void GuestListWindow::addTag() {
+TagWindow* GuestListWindow::addTag() {
     TagWindow* tg = new TagWindow();
     connect(tg, SIGNAL (newTagAdded()),this, SLOT (updateTag()));
+    return tg;
 }
 
 void GuestListWindow::updateTag() {

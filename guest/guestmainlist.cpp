@@ -16,15 +16,16 @@ GuestMainList::GuestMainList(QDateTime start_time, QWidget* guest_window, QWidge
             this, SLOT(goToGuestPage(const QModelIndex &)));
 }
 
-void GuestMainList::goToGuestPage(const QModelIndex & index) {
+GuestPage* GuestMainList::goToGuestPage(const QModelIndex & index) {
     if(index.column() != 5) {
         GuestPage* guest_page = new GuestPage(getId(index));
-        connect(guest_page, SIGNAL (guestInfoSaved()),guest_window, SLOT (showLayout()));
-    }
-    else {
+        connect(guest_page, SIGNAL (guestInfoUpdated()),guest_window, SLOT (showLayout()));
+        return guest_page;
+    } else {
         guest_model->setData(index, !index.data().toInt());
         guest_model->database().commit();
         guest_model->submitAll();
         guest_model->select();
+        return nullptr;
     }
 }

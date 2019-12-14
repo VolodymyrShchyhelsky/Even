@@ -27,13 +27,13 @@ void GuestPage::initButtons() {
 }
 
 void GuestPage::save() {
-    qDebug() << "MAP SUBMIT" << mapper->submit();
+    mapper->submit();
     this->close();
-    emit guestInfoSaved();
+    emit guestInfoUpdated();
 }
 
 void GuestPage::initInfo() {
-    qDebug() << __func__;
+
     info = new QVBoxLayout();
     QSpacerItem* spacer = new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
     QHBoxLayout* hbox_name = new QHBoxLayout();
@@ -108,21 +108,21 @@ void GuestPage::updateTags() {
 }
 
 void GuestPage::showLayout() {
-    qDebug() << __func__;
+
     delete layout;
     layout = new QHBoxLayout;
     initEditLayout();
     initInfo();
     layout->addLayout(info);
     layout->addLayout(tags_buttons);
-    qDebug() << __func__;
+
     this->setLayout(layout);
-    qDebug() << __func__;
+
     this->show();
 }
 
 void GuestPage::initDataMapper() {
-    qDebug() << __func__;
+
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     mapper->setModel(user_list_model);
@@ -134,7 +134,7 @@ void GuestPage::initDataMapper() {
 }
 
 void GuestPage::initListModel() {
-    qDebug() << __func__;
+
     user_list_model = new QSqlTableModel(nullptr, DataBaseHolder::getDbHolder()->getDB());
     user_list_model->setTable("guest");
     user_list_model->setFilter(QString("id = %1").arg(id));
@@ -142,7 +142,7 @@ void GuestPage::initListModel() {
 }
 
 void GuestPage::deleteGuest() {
-    qDebug() << __func__;
+
     QSqlQuery del = QSqlQuery("delete from guest where id = " + id, DataBaseHolder::getDbHolder()->getDB());
     del.exec();
     del = QSqlQuery("delete from tagtoguest where guest_id = " + id, DataBaseHolder::getDbHolder()->getDB());
@@ -150,6 +150,7 @@ void GuestPage::deleteGuest() {
     del = QSqlQuery("delete from tabletoguest where guest_id = " + id, DataBaseHolder::getDbHolder()->getDB());
     del.exec();
     this->close();
+    emit guestInfoUpdated();
 }
 
 void GuestPage::addTag() {

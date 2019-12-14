@@ -22,6 +22,8 @@ public:
     static DataBaseHolder* getDbHolder();
     int getRecordCount(QString table_name, QString value="", QString field="");
 
+    int getRecordCount(QString table_name, QString value = "", QString field = "name");
+
     int insertNewTable(int base_capacity, int secondary_capacity);
     void changeTableCoordinates(int table_id, int x, int y);
     void deleteTable(int table_id);

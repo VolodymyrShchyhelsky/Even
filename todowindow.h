@@ -38,6 +38,7 @@ public:
 signals:
 
 public slots:
+    void remove();
     void addNew();
     void addGlobalTodo();
     void finishEditing();
@@ -46,6 +47,8 @@ public slots:
     void setActive(QTreeWidgetItem *item);
 
 private:
+    friend class TestTodoWindow;
+
     QVBoxLayout* layout = nullptr;
     QHBoxLayout* buttons_layout = nullptr;
 
@@ -60,6 +63,7 @@ private:
 
     QPushButton* add_b;
     QPushButton* add_global_todo;
+    QPushButton* remove_b;
     QCheckBox* active_b;
     QCheckBox* not_active_b;
 };

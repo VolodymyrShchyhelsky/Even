@@ -15,7 +15,7 @@ public:
 signals:
 
 public slots:
-    void goToGuestPage(const QModelIndex &index);
+    GuestPage* goToGuestPage(const QModelIndex &index);
 
 private:
     QWidget* guest_window;
