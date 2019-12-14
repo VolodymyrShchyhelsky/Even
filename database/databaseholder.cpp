@@ -2,9 +2,7 @@
 
 DataBaseHolder* DataBaseHolder::instance = nullptr;
 
-DataBaseHolder::DataBaseHolder()
-{
-    qDebug() <<"path"<<  PATH ;
+DataBaseHolder::DataBaseHolder() {
     connectToDB();
 }
 
@@ -20,7 +18,6 @@ QSqlDatabase DataBaseHolder::getDB() {
 }
 void DataBaseHolder::connectToDB() {
     QFile file( PATH );
-    qDebug() << "File exists:" << file.exists();
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(PATH);
     if(!db.open()) {
@@ -43,7 +40,6 @@ void DataBaseHolder::createTables()
         }
     }
     QStringList db_tables1 = db.tables();
-    qDebug() << "query1 " << db_tables1;
 }
 
 void DataBaseHolder::initTables()
@@ -80,7 +76,6 @@ void DataBaseHolder::createGuestTable() {
 }
 
 void DataBaseHolder::createScheduleTable() {
-    qDebug() << "cre here";
     QSqlQuery create_table = QSqlQuery(
             "create table " + SCHEDULE_TABLE +
             "(id integer primary key autoincrement, " +
@@ -133,8 +128,10 @@ QString DataBaseHolder::getNameByGuestId(QString guest_id) {
                 db);
     get_name.addBindValue(guest_id);
     get_name.exec();
-    get_name.next();
-    return get_name.value(0).toString();
+    if (get_name.next()) {
+        return get_name.value(0).toString();
+    }
+    return QString();
 }
 
 int DataBaseHolder::insertNewTable(int base_capacity, int secondary_capacity) {
@@ -177,7 +174,7 @@ void DataBaseHolder::addTableGuestEntry(int table_id, QString guest_id) {
             db);
     insert_new_entry.addBindValue(table_id);
     insert_new_entry.addBindValue(guest_id);
-    qDebug() << "guest to table" << insert_new_entry.exec() << table_id << guest_id;
+    insert_new_entry.exec();
 }
 
 void DataBaseHolder::changeTableCoordinates(int table_id, int x, int y) {
@@ -234,6 +231,19 @@ QStringList DataBaseHolder::getNamesOfGuestsOnTable(int table_id) {
         guest_names.append(get_names_of_guests_on_table.value(0).toString());
     }
     return guest_names;
+}
+
+int DataBaseHolder::getRecordCount(QString table_name, QString value, QString field) {
+    QString where = "";
+    if(!value.isEmpty()) {
+        where = " where " + field + " = " + value;
+    }
+
+    QSqlQuery query = QSqlQuery(
+                "select count(*) from " + table_name + where,
+                db);
+    query.next();
+    return query.value(0).toInt();
 }
 
 

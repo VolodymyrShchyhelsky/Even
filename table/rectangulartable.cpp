@@ -23,12 +23,12 @@ void RectangularTable::draw(bool active) {
         int left_chair_y = y + i * chair_diameter;
         addEllipse(QRectF(base_x_left, left_chair_y, chair_diameter, chair_diameter));
         if (seated_guest_count < guest_names.length()) {
-            show_guest_name(base_x_left, left_chair_y, seated_guest_count++);
+            showGuestName(base_x_left, left_chair_y, seated_guest_count++);
         }
         int right_chair_y = y + i * chair_diameter;
         addEllipse(QRectF(base_x_right, right_chair_y, chair_diameter, chair_diameter));
         if (seated_guest_count < guest_names.length()) {
-            show_guest_name(base_x_right, right_chair_y, seated_guest_count++);
+            showGuestName(base_x_right, right_chair_y, seated_guest_count++);
         }
     }
     int base_y_top = y - chair_diameter;
@@ -37,12 +37,12 @@ void RectangularTable::draw(bool active) {
         int top_chair_x = x + i * chair_diameter;
         addEllipse(QRectF(top_chair_x, base_y_top, chair_diameter, chair_diameter));
         if (seated_guest_count < guest_names.length()) {
-            show_guest_name(top_chair_x, base_y_top, seated_guest_count++);
+            showGuestName(top_chair_x, base_y_top, seated_guest_count++);
         }
         int bottom_chair_x = x + i * chair_diameter;
         addEllipse(QRectF(bottom_chair_x, base_y_bottom, chair_diameter, chair_diameter));
         if (seated_guest_count < guest_names.length()) {
-            show_guest_name(bottom_chair_x, base_y_bottom, seated_guest_count++);
+            showGuestName(bottom_chair_x, base_y_bottom, seated_guest_count++);
         }
     }
 }
@@ -53,4 +53,9 @@ QPair<int, int> RectangularTable::get_capacity() {
 
 int RectangularTable::get_total_capacity() {
     return width * 2 + height * 2;
+}
+
+bool RectangularTable::operator==(const RectangularTable &other) {
+    return (this->width == other.width
+            && this->height == other.height);
 }

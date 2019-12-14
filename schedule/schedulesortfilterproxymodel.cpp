@@ -8,8 +8,8 @@ ScheduleSortFilterProxyModel::ScheduleSortFilterProxyModel(QObject *parent) : QS
 
 bool ScheduleSortFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
     const QSqlTableModel* model = static_cast<const QSqlTableModel*>(sourceModel());
-    QPair<QDateTime, QDateTime> left_from_and_to = ScheduleTools::get_from_and_to(left, model);
-    QPair<QDateTime, QDateTime> right_from_and_to = ScheduleTools::get_from_and_to(right, model);
+    QPair<QDateTime, QDateTime> left_from_and_to = ScheduleTools::getFromAndTo(left, model);
+    QPair<QDateTime, QDateTime> right_from_and_to = ScheduleTools::getFromAndTo(right, model);
 
     return left_from_and_to.first == right_from_and_to.first ?
                 left_from_and_to.second < left_from_and_to.second :

@@ -11,7 +11,7 @@ class ScheduleTools
 {
 
 public:
-    static QPair<QDateTime, QDateTime> get_from_and_to(const QModelIndex &index, const QSqlTableModel * model);
+    static QPair<QDateTime, QDateTime> getFromAndTo(const QModelIndex &index, const QSqlTableModel * model);
     static QDateTime variantToDateTime(QVariant variant);
 
 private:

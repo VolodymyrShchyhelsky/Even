@@ -20,6 +20,7 @@ class DataBaseHolder
 public:
     QSqlDatabase getDB();
     static DataBaseHolder* getDbHolder();
+    int getRecordCount(QString table_name, QString value="", QString field="");
 
     int insertNewTable(int base_capacity, int secondary_capacity);
     void changeTableCoordinates(int table_id, int x, int y);
@@ -39,7 +40,6 @@ private:
     void createTables();
     void connectToDB();
     const QString PATH = QApplication::applicationDirPath() + "/dataBase.db";
-//    const QString PATH = "C:/Qt/WorkSpace/Even/dataBase.db";
 
     QSqlDatabase db;
 

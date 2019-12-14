@@ -9,7 +9,6 @@ void SeatingHandler::loadTablesFromDatabase(QWidget *parent_widget) {
     QVector< QMap<QString, int> > tables_data = DataBaseHolder::getDbHolder()->getAllTables();
     QVector<TableView*> views;
     for (auto table_data = tables_data.begin(); table_data != tables_data.end(); ++table_data) {
-        qDebug() << "load table" << *table_data;
         int base_capacity = (*table_data)[TABLES_BASE_CAPACITY_COLUMN], secondary_capacity = (*table_data)[TABLES_SECONDARY_CAPACITY_COLUMN];
         Table * table;
         if (secondary_capacity) {
@@ -19,9 +18,9 @@ void SeatingHandler::loadTablesFromDatabase(QWidget *parent_widget) {
             table = new RoundTable(base_capacity, parent_widget);
         }
         int table_id = (*table_data)["id"];
-        table->set_id(table_id);
+        table->setId(table_id);
         QStringList guest_names = DataBaseHolder::getDbHolder()->getNamesOfGuestsOnTable(table_id);
-        table->set_guests(guest_names);
+        table->setGuests(guest_names);
         TableView * view = new TableView(table, parent_widget);
         connectTableView(view);
         view->move((*table_data)[TABLES_X_COLUMN], (*table_data)[TABLES_Y_COLUMN]);
@@ -31,8 +30,7 @@ void SeatingHandler::loadTablesFromDatabase(QWidget *parent_widget) {
 void SeatingHandler::addTable(Table * table) {
     QPair<int, int> capacity = table->get_capacity();
     int table_id = DataBaseHolder::getDbHolder()->insertNewTable(capacity.first, capacity.second);
-    qDebug() << "INSERTED" << table_id;
-    table->set_id(table_id);
+    table->setId(table_id);
 }
 
 void SeatingHandler::createMessageBox(QString text, QString informative_text) {
@@ -70,13 +68,13 @@ void SeatingHandler::deleteCurrentTable() {
     }
     TableView * table_to_delete = current_table_view;
     current_table_view = nullptr;
-    DataBaseHolder::getDbHolder()->deleteTable(table_to_delete->get_table()->get_id());
+    DataBaseHolder::getDbHolder()->deleteTable(table_to_delete->get_table()->getId());
     delete table_to_delete;
     emit seatingUpdated();
 }
 
 void SeatingHandler::updateTableLocation(TableView * table_view) {
-    DataBaseHolder::getDbHolder()->changeTableCoordinates(table_view->get_table()->get_id(), table_view->x(), table_view->y());
+    DataBaseHolder::getDbHolder()->changeTableCoordinates(table_view->get_table()->getId(), table_view->x(), table_view->y());
 }
 
 void SeatingHandler::seatGuest(QString guest_id) {
@@ -85,14 +83,14 @@ void SeatingHandler::seatGuest(QString guest_id) {
         return;
     }
     Table * table = current_table_view->get_table();
-    if (!table->can_seat()) {
+    if (!table->canSeat()) {
         askToChooseTableWithFreeSeats();
         return;
     }
-    DataBaseHolder::getDbHolder()->addTableGuestEntry(table->get_id(), guest_id);
+    DataBaseHolder::getDbHolder()->addTableGuestEntry(table->getId(), guest_id);
 
     QString guest_name = DataBaseHolder::getDbHolder()->getNameByGuestId(guest_id);
-    table->add_guest(guest_name);
+    table->addGuest(guest_name);
     table->draw(true);
     current_table_view->setFocus();
     emit seatingUpdated();

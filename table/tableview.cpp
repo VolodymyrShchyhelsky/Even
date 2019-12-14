@@ -33,6 +33,7 @@ void TableView::keyPressEvent(QKeyEvent *event) {
             break;
     }
     move(x() + dx, y() + dy);
+    emit coordinatesChanged(this);
 }
 
 void TableView::focusInEvent(QFocusEvent *event) {
@@ -43,7 +44,6 @@ void TableView::focusInEvent(QFocusEvent *event) {
 
 void TableView::focusOutEvent(QFocusEvent *event) {
     qDebug() << event->reason();
-    emit coordinatesChanged(this);
 }
 
 Table* TableView::get_table() {

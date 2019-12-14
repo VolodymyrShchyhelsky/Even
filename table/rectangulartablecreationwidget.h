@@ -12,6 +12,7 @@ public:
     Table* createTable();
 
 private:
+    friend class TestRectangularTableCreationWidget;
     QSpinBox * width_box;
     QSpinBox * height_box;
 };

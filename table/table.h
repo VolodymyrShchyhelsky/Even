@@ -16,11 +16,11 @@ public:
     virtual int get_total_capacity() = 0;
 
     void move(int dx, int dy);
-    void set_id(int id);
-    int get_id();
-    void add_guest(QString guest_name);
-    void set_guests(QStringList guest_names);
-    bool can_seat();
+    void setId(int id);
+    int getId();
+    void addGuest(QString guest_name);
+    void setGuests(QStringList guest_names);
+    bool canSeat();
 
 protected:
     const int chair_radius = 20;
@@ -30,7 +30,7 @@ protected:
     int id;
     QStringList guest_names;
 
-    void show_guest_name(int chair_x, int chair_y, int guest_number);
+    void showGuestName(int chair_x, int chair_y, int guest_number);
 
 signals:
 

@@ -11,6 +11,8 @@ public:
     QPair<int, int> get_capacity() override;
     int get_total_capacity() override;
 
+    bool operator==(const RectangularTable &other);
+
 private:
     int width;
     int height;

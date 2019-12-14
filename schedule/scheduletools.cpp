@@ -5,7 +5,7 @@ ScheduleTools::ScheduleTools()
 
 }
 
-QPair<QDateTime, QDateTime> ScheduleTools::get_from_and_to(const QModelIndex &index, const QSqlTableModel * model) {
+QPair<QDateTime, QDateTime> ScheduleTools::getFromAndTo(const QModelIndex &index, const QSqlTableModel *model) {
     int row = index.row();
 
     int from_column = model->fieldIndex(SCHEDULE_FROM_COLUMN);

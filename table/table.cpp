@@ -1,7 +1,6 @@
 #include "table.h"
 
 Table::Table(QObject *parent) : QGraphicsScene(parent) {
-
 }
 
 void Table::move(int dx, int dy) {
@@ -9,27 +8,27 @@ void Table::move(int dx, int dy) {
     y += dy;
 }
 
-void Table::set_id(int id) {
+void Table::setId(int id) {
     this->id = id;
 }
 
-int Table::get_id() {
+int Table::getId() {
     return id;
 }
 
-void Table::add_guest(QString guest_name) {
+void Table::addGuest(QString guest_name) {
     guest_names.append(guest_name);
 }
 
-void Table::set_guests(QStringList guest_names) {
+void Table::setGuests(QStringList guest_names) {
     this->guest_names = guest_names;
 }
 
-bool Table::can_seat() {
+bool Table::canSeat() {
     return guest_names.length() < get_total_capacity();
 }
 
-void Table::show_guest_name(int chair_x, int chair_y, int guest_number) {
+void Table::showGuestName(int chair_x, int chair_y, int guest_number) {
     QGraphicsTextItem * guest_name_item = new QGraphicsTextItem();
     guest_name_item->setPos(chair_x, chair_y);
     guest_name_item->setTextWidth(chair_radius*2);

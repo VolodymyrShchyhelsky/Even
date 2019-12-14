@@ -34,7 +34,7 @@ void RoundTable::draw(bool active) {
         qreal chair_y = base_y + radius_sum * qCos(rotation_angle * i);
         addEllipse(QRectF(chair_x, chair_y, chair_diameter, chair_diameter));
         if (i < guest_names.length()) {
-            show_guest_name(chair_x, chair_y, i);
+            showGuestName(chair_x, chair_y, i);
         }
     }
 }
@@ -45,4 +45,9 @@ QPair<int, int> RoundTable::get_capacity() {
 
 int RoundTable::get_total_capacity() {
     return capacity;
+}
+
+bool RoundTable::operator==(const RoundTable &other) {
+    return (this->capacity == other.capacity
+            && this->table_radius == other.table_radius);
 }

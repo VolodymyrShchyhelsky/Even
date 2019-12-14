@@ -13,6 +13,10 @@ public:
 
 private:
     QSpinBox * num_of_guests_box;
+
+    //#ifdef TEST
+    friend class TestRoundTableCreationWidget;
+    //#endif
 };
 
 #endif // ROUNDTABLECREATIONWIDGET_H
