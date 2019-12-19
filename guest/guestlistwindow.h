@@ -35,6 +35,7 @@ public slots:
 private:
     friend class TestGuestListWindow;
 
+    QDateTime start_time;
     QHBoxLayout* layout = nullptr;
     GuestFilter* filter;
     GuestMainList* guest_list;

@@ -3,7 +3,7 @@
 GuestListTag::GuestListTag(QWidget *tagwindow ,QWidget *parent) : GuestListBase(parent)
 {
     this->tagwindow = tagwindow;
-    visible_columns << "surname";
+    visible_columns << "surname" << "name";
     GuestListBase::init();
     guest_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(guest_view, SIGNAL(clicked(const QModelIndex &)),

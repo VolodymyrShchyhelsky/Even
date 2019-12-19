@@ -1,6 +1,6 @@
 #include "guestlistwindow.h"
 
-GuestListWindow::GuestListWindow(QDateTime start_time, QWidget *parent) : QWidget(parent)
+GuestListWindow::GuestListWindow(QDateTime start_time_, QWidget *parent) : QWidget(parent), start_time(start_time_)
 {
     add_new_guest_b = new QPushButton();
     add_new_guest_b->setText("Add guest");
@@ -49,6 +49,17 @@ void GuestListWindow::addNewGest() {
     QSqlTableModel * model = static_cast<QSqlTableModel*>(guest_list->guest_model);
     QSqlRecord record = model->record();
     model->insertRecord(-1, record);
+    model->submitAll();
+    model->select();
+
+    if(start_time < QDateTime::currentDateTime()) {
+        QModelIndex index = model->index(model->rowCount()-1,5);
+        QString guest_id = model->index(model->rowCount()-1,1).data().toString();
+        model->setData(index, !index.data().toInt());
+        model->database().commit();
+        QSqlQuery insert_tag_to_guest = QSqlQuery("insert into tagtoguest (tag_id, guest_id) values (" + guest_list->unplaned_tag_id + ", " + guest_id + ")",DataBaseHolder::getDbHolder()->getDB());
+    }
+
     model->submitAll();
     model->select();
     emit guest_list->guest_view->clicked(model->index(model->rowCount()-1,1));

@@ -1,4 +1,5 @@
 #include "guestpage.h"
+#include <QMessageBox>
 
 GuestPage::GuestPage(QString id, QWidget *parent) : QWidget(parent), id(id)
 {
@@ -26,10 +27,34 @@ void GuestPage::initButtons() {
     connect(save_b, SIGNAL (released()),this, SLOT (save()));
 }
 
-void GuestPage::save() {
+bool GuestPage::save() {
+    QString error_message = "";
+    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    mailREX.setCaseSensitivity(Qt::CaseInsensitive);
+    mailREX.setPatternSyntax(QRegExp::RegExp);
+    QRegExp phoneREX("^\\+[1-9]{1}[0-9]{3,14}$");
+
+    if(!mailREX.exactMatch(email->text())) {
+        error_message = "Invalid email";
+    }
+    if(!phoneREX.exactMatch(phone->text())) {
+        error_message = "Invalid phone";
+    }
+    if(name->text().isEmpty()) {
+        error_message = "Name is empty";
+    }
+    if(surname->text().isEmpty()) {
+        error_message = "Surname is empty";
+    }
+    if(!error_message.isEmpty()) {
+        QMessageBox::warning(nullptr, "Fail", error_message);
+        return false;
+    }
+
     mapper->submit();
     this->close();
     emit guestInfoUpdated();
+    return true;
 }
 
 void GuestPage::initInfo() {
@@ -56,19 +81,10 @@ void GuestPage::initInfo() {
     info->addWidget(email_title);
     info->addWidget(email);
     info->addSpacerItem(spacer);
-//    info->addLayout(hbox_name);
-//    info->addLayout(hbox_surname);
-//    info->addLayout(hbox_phone);
-//    info->addLayout(hbox_email);
     initDataMapper();
 }
 
 void GuestPage::initTags() {
-//    QScrollArea* tag_scroll_area = new QScrollArea();
-//    tag_scroll_area->setWidgetResizable(true);
-//    tags_widget = new QWidget(tag_scroll_area);
-//    QVBoxLayout* tags_layout = new QVBoxLayout(tags_widget);
-
     tag_scroll_area = new QScrollArea();
     tags_widget = new QWidget();
     QVBoxLayout* tags_layout = new QVBoxLayout(tags_widget);

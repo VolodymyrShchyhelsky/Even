@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "menubar.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,8 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(QGuiApplication::primaryScreen()->size());
     showTodos();
     initDockWidget();
+    initMenu();
     setStyleSheet("QPushButton:pressed { background-color: blue; color: white }"
                   "QPushButton {background-color: white; color: blue; border: 1px solid blue }");
+}
+
+void MainWindow::initMenu() {
+    MenuBar* menu = new MenuBar(this);
+    setMenuBar(menu->menu_bar);
 }
 
 MainWindow::~MainWindow()

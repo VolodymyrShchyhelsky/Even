@@ -5,11 +5,16 @@ GuestMainList::GuestMainList(QDateTime start_time, QWidget* guest_window, QWidge
     this->guest_window = guest_window;
     visible_columns << "id" << "name" << "surname" << "email" << "phone";
     if (start_time.isValid() && QDateTime::currentDateTime() >= start_time) {
+        qDebug() << "g m l";
+        if(unplaned_tag_id.isEmpty()) {
+            unplaned_tag_id = DataBaseHolder::getDbHolder()->addTagEntry("Unplaned");
+        }
         visible_columns << "present";
         GuestListBase::init();
         guest_view->setItemDelegate(new GuestDelegate);
     }
     else {
+        qDebug() << "g m l1" << start_time;
         GuestListBase::init();
     }
     connect(guest_view, SIGNAL(clicked(const QModelIndex &)),

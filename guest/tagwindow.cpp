@@ -67,8 +67,7 @@ void TagWindow::save() {
     if(name.isEmpty()) {
         return;
     }
-    QSqlQuery insert_tag = QSqlQuery("insert into tag (name) values('" + name + "')", DataBaseHolder::getDbHolder()->getDB());
-    QString tag_id = insert_tag.lastInsertId().toString();
+    QString tag_id = DataBaseHolder::getDbHolder()->addTagEntry(name);
     for(auto guest_id : without_tag->hide_list) {
         QSqlQuery insert_tag_to_guest = QSqlQuery("insert into tagtoguest (tag_id, guest_id) values (" + tag_id + ", " + guest_id + ")",DataBaseHolder::getDbHolder()->getDB());
     }

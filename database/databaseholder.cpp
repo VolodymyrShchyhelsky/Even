@@ -1,6 +1,16 @@
 #include "databaseholder.h"
 
 DataBaseHolder* DataBaseHolder::instance = nullptr;
+QString DataBaseHolder::PATH = "";
+
+void DataBaseHolder::setPath(QString name) {
+    DataBaseHolder::PATH = name.isEmpty() ? "" : QApplication::applicationDirPath() + "/" + name + ".db";
+    instance = new DataBaseHolder();
+}
+
+QString DataBaseHolder::getPath() {
+    return PATH;
+}
 
 DataBaseHolder::DataBaseHolder() {
     connectToDB();
@@ -246,4 +256,10 @@ int DataBaseHolder::getRecordCount(QString table_name, QString value, QString fi
     return query.value(0).toInt();
 }
 
+QString DataBaseHolder::addTagEntry(QString name) {
+    QSqlQuery insert_new_entry = QSqlQuery(
+            "insert into tag(name) values ('" + name + "')",
+            db);
+    return insert_new_entry.lastInsertId().toString();
+}
 

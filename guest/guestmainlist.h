@@ -12,6 +12,7 @@ public:
     virtual ~GuestMainList() {};
     explicit GuestMainList(QDateTime start_time, QWidget* guest_window, QWidget *parent = nullptr);
 
+    QString unplaned_tag_id = "";
 signals:
 
 public slots:

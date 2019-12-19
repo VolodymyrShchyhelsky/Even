@@ -20,14 +20,15 @@ class DataBaseHolder
 public:
     QSqlDatabase getDB();
     static DataBaseHolder* getDbHolder();
-    int getRecordCount(QString table_name, QString value="", QString field="");
-
+    static void setPath(QString);
+    QString getPath();
     int getRecordCount(QString table_name, QString value = "", QString field = "name");
 
     int insertNewTable(int base_capacity, int secondary_capacity);
     void changeTableCoordinates(int table_id, int x, int y);
     void deleteTable(int table_id);
     void deleteTableGuestEntriesByTableId(int table_id);
+    QString addTagEntry(QString);
     QVector< QMap<QString, int> > getAllTables();
 
     QString getNameByGuestId(QString guest_id);
@@ -41,7 +42,7 @@ private:
 
     void createTables();
     void connectToDB();
-    const QString PATH = QApplication::applicationDirPath() + "/dataBase.db";
+    static QString PATH;
 
     QSqlDatabase db;
 

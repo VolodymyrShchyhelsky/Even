@@ -69,7 +69,8 @@ void GuestFilter::initTags() {
                  this, SLOT(deleteTag(QString)));
          QHBoxLayout* hbox = new QHBoxLayout();
          hbox->addWidget(check);
-         hbox->addWidget(del);
+         if(dynamic_cast<GuestListWindow*>(parentWidget()))
+            hbox->addWidget(del);
          tags.append(QPair<QCheckBox*, QString>(check, tag_id));
          layout->addLayout(hbox);
     }

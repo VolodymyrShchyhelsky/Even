@@ -11,8 +11,7 @@ class DescriptionButton : public QPushButton
     Q_OBJECT
 public:
     virtual ~DescriptionButton() {};
-    DescriptionButton(QString description, const QString& text, QWidget* parent = 0 );
-    QString getDescription();
+    DescriptionButton(QString description, const QString&, QWidget* parent = 0 );
 
 public slots:
     void sendDescriptionSlot();

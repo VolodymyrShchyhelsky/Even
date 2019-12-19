@@ -33,10 +33,12 @@ public slots:
     void deleteGuest();
     void addTag();
     void deleteTag(QString id);
-    void save();
+    bool save();
     void updateTags();
 
 private:
+    friend class TestGuestPage;
+
     QDataWidgetMapper *mapper;
     QSqlTableModel* user_list_model;
     QVBoxLayout* info;

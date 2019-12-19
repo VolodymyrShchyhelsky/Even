@@ -9,6 +9,7 @@
 #include "todowindow.h"
 #include <QDockWidget>
 #include "todowindow.h"
+#include <QMenu>
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,7 @@ private:
     QPushButton * todos_button;
     QWidget * page_choice_widget;
 
+    void initMenu();
     void initDockWidget();
     void updateCentralWidget(QWidget * new_central_widget);
 

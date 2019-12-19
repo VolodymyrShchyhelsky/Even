@@ -6,10 +6,6 @@ DescriptionButton::DescriptionButton(QString description, const QString& text, Q
     connect(this, SIGNAL(clicked()), this, SLOT(sendDescriptionSlot()));
 }
 
-QString DescriptionButton::getDescription() {
-    return description;
-}
-
 void DescriptionButton::sendDescriptionSlot() {
     emit descriptionSignal(description);
 }

@@ -3,7 +3,7 @@
 GuestListTableW::GuestListTableW(QWidget *parent) : GuestListBase(parent)
 {
     basic_filter = "id not in (select guest_id from tabletoguest)";
-    visible_columns << "surname";
+    visible_columns << "surname" << "name";
     GuestListBase::init();
     guest_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(guest_view, SIGNAL(clicked(const QModelIndex &)),
